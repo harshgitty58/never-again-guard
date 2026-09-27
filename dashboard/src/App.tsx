@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { loadDataset, type Dataset } from './data';
 import Hero from './Hero';
+import Starfield from './Starfield';
 import { ActionAudit, HowItWorks, ProofSection, RunIt, VariantMap } from './sections';
 
 export default function App() {
@@ -29,6 +30,7 @@ export default function App() {
 
   return (
     <>
+      <Starfield />
       <Hero data={data} />
       <main>
         <ProofSection data={data} />

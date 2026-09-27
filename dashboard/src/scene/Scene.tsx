@@ -38,8 +38,8 @@ export default function Scene({ incidents, step, active, onSelect }: Props) {
       camera={{ position: [0, 0, 9], fov: 45 }}
       gl={{ antialias: true, powerPreference: 'high-performance' }}
     >
-      <color attach="background" args={['#07090D']} />
-      <fog attach="fog" args={['#07090D', 12, 30]} />
+      <color attach="background" args={['#08090A']} />
+      <fog attach="fog" args={['#08090A', 12, 30]} />
       <ambientLight intensity={0.35} />
       <pointLight position={[6, 6, 6]} intensity={60} color="#ffffff" />
       <directionalLight position={[-6, -2, -4]} intensity={1.2} color="#4589FF" />
