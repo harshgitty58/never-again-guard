@@ -46,6 +46,9 @@
   .tag { display: inline-block; font: 500 13px 'Geist Mono', monospace; color: var(--accent); background: rgba(69,137,255,.12); border-radius: 6px; padding: 3px 9px; margin-top: 12px; }
   .tag.g { color: var(--green); background: rgba(43,217,159,.12); }
 
+  .poster-slide { padding: 0; }
+  .poster-slide img { display: block; width: 1280px; height: 720px; }
+
   /* 1 — title */
   .title { padding: 0; }
   .title .scene { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: right center; mix-blend-mode: screen; }
@@ -103,6 +106,11 @@
   </div>
 </section>
 
+<!-- 1b: at a glance (poster.png, rendered from poster.html) -->
+<section class="slide poster-slide">
+  <img src="poster.png" alt="Never Again at a glance" />
+</section>
+
 <!-- 2 -->
 <section class="slide">
   <div class="kicker">The problem</div>
@@ -113,7 +121,7 @@
     <div class="card"><h3>Same mistake, other files</h3><p>The root-cause pattern is almost always copy-pasted elsewhere, and nobody goes looking.</p></div>
   </div>
   <p class="foot">Incomplete action items make recurrence more likely (Google SRE workbook, postmortem culture).</p>
-  <span class="num">02</span>
+  <span class="num">03</span>
 </section>
 
 <!-- 3 -->
@@ -137,7 +145,7 @@
     </div>
   </div>
   <p class="foot">Same test, two throwaway git worktrees. A crash or import error on the bug commit doesn't count. Anti-cheat rejects skipped, assertion-free or self-mocking tests.</p>
-  <span class="num">03</span>
+  <span class="num">04</span>
 </section>
 
 <!-- 4 -->
@@ -150,7 +158,7 @@
     <div class="card"><h3>3 · Variant fixes</h3><p>Bob fixes every variant the rule finds. The verifier reruns until none are open.</p></div>
     <div class="card"><h3>4 · Action-item audit</h3><p>Every item is marked guarded / partial / unguarded / process-only, with file evidence. No invented code for runbooks.</p></div>
   </div>
-  <span class="num">04</span>
+  <span class="num">05</span>
 </section>
 
 <!-- 5 -->
@@ -165,7 +173,7 @@
     <div class="card"><span class="n">05</span><h3>Variants fixed</h3><p>Bob fixes them, then the verifier reruns until exit 0.</p><span class="tag">Agent mode</span></div>
   </div>
   <p class="loop">Output: <span class="mono">reports/INC-xxx.json</span> → static 3D dashboard on Vercel. Guardrails live in the project rules (AGENTS.md): never edit app source while guarding, and always quote the verifier's real verdict.</p>
-  <span class="num">05</span>
+  <span class="num">06</span>
 </section>
 
 <!-- 6 -->
@@ -176,7 +184,7 @@
     <figure class="shot"><img src="img/scene-before.png" alt="Run 1: 3 incidents PARTIAL, 7 open variants" /><figcaption><span class="amber">run 1</span> · 3 PARTIAL · <span class="red">7 open variants</span></figcaption></figure>
     <figure class="shot"><img src="img/scene-after.png" alt="Run 2: all guarded" /><figcaption><span class="green">run 2</span> · 3 GUARDED · 0 open · verifier exit 0</figcaption></figure>
   </div>
-  <span class="num">06</span>
+  <span class="num">07</span>
 </section>
 
 <!-- 7 -->
@@ -190,7 +198,7 @@
     <div class="card kpi"><div class="v">&lt;1<small> min</small></div><p>full verification of all incidents, also on a fresh clone</p></div>
   </div>
   <p class="foot">One IBM Bob task (39.26 Bobcoins) built the app, the postmortems, the verifier and all three guards, then fixed every variant.</p>
-  <span class="num">07</span>
+  <span class="num">08</span>
 </section>
 
 <!-- 8 -->
@@ -204,7 +212,7 @@
     <div class="card"><h3>More languages</h3><p>Rule packs beyond JavaScript: Python, Java and Go via Semgrep.</p></div>
   </div>
   <p class="foot">github.com/harshgitty58/never-again-guard · Built with IBM Bob 2.0 · MIT</p>
-  <span class="num">08</span>
+  <span class="num">09</span>
 </section>
 
 </body>
