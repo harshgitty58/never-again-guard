@@ -1,0 +1,26 @@
+rules:
+  - id: inc-103-direct-price-arithmetic
+    patterns:
+      - pattern-either:
+          - pattern: $X.price * $Y
+          - pattern: $X.price + $Y
+          - pattern: $X.price - $Y
+          - pattern: $Y * $X.price
+          - pattern: $Y + $X.price
+    paths:
+      include:
+        - "*.js"
+      exclude:
+        - "**/util/money.js"
+        - "**/test/**"
+        - "**/node_modules/**"
+    message: >
+      INC-103: Direct arithmetic on $X.price without toMoney() validation.
+      If the inventory API returns price: null or undefined, this produces NaN
+      that propagates silently (customers see ₹NaN, ₹0 orders are accepted).
+      Use toMoney(item.price) from util/money.js before any arithmetic.
+    languages: [javascript]
+    severity: ERROR
+    metadata:
+      incident: INC-103
+      cwe: "CWE-20: Improper Input Validation"

@@ -1,0 +1,26 @@
+rules:
+  - id: inc-101-raw-date-methods-outside-time-util
+    patterns:
+      - pattern-either:
+          - pattern: $D.getHours()
+          - pattern: $D.getDate()
+          - pattern: $D.getDay()
+          - pattern: $D.getMonth()
+      - pattern-not-inside: |
+          import { ... } from '.../util/time.js'
+    paths:
+      include:
+        - "*.js"
+      exclude:
+        - "**/util/time.js"
+        - "**/test/**"
+        - "**/node_modules/**"
+    message: >
+      INC-101: Raw Date method $D.METHOD() used outside util/time.js.
+      The production server runs UTC but customers are in IST (UTC+5:30).
+      Use getISTHour(), getISTDateString(), or toIST() from util/time.js instead.
+    languages: [javascript]
+    severity: ERROR
+    metadata:
+      incident: INC-101
+      cwe: "CWE-682: Incorrect Calculation"

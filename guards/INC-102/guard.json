@@ -1,0 +1,51 @@
+{
+  "incident": "INC-102",
+  "title": "Retry storm took down the payment gateway",
+  "postmortem": "postmortems/INC-102-retry-storm.md",
+  "app": "shoplite",
+  "bugRef": "inc-102-bug",
+  "fixRef": "inc-102-fix",
+  "test": "guards/INC-102/regression.test.js",
+  "rule": {
+    "engine": "semgrep",
+    "path": "guards/INC-102/rule.yml",
+    "seed": { "file": "shoplite/src/clients/payment.js", "line": 19 }
+  },
+  "actionItems": [
+    {
+      "id": "AI-1",
+      "text": "Add a regression test that asserts call count <= 4 and that the client fails properly on always-failing gateway",
+      "type": "test",
+      "status": "guarded",
+      "evidence": ["guards/INC-102/regression.test.js"]
+    },
+    {
+      "id": "AI-2",
+      "text": "Write a Semgrep rule flagging withRetry($F) with exactly one argument",
+      "type": "rule",
+      "status": "guarded",
+      "evidence": ["guards/INC-102/rule.yml"]
+    },
+    {
+      "id": "AI-3",
+      "text": "Fix inventory.js and sms.js to pass bounded retry options",
+      "type": "code",
+      "status": "unguarded",
+      "evidence": []
+    },
+    {
+      "id": "AI-4",
+      "text": "Change withRetry default maxAttempts from Infinity to 3 with a warning",
+      "type": "code",
+      "status": "unguarded",
+      "evidence": []
+    },
+    {
+      "id": "AI-5",
+      "text": "Document always-supply-retry-options rule in CONTRIBUTING.md",
+      "type": "process",
+      "status": "process-only",
+      "evidence": []
+    }
+  ]
+}

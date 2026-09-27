@@ -1,0 +1,51 @@
+{
+  "incident": "INC-103",
+  "title": "₹NaN checkout — null price from inventory API",
+  "postmortem": "postmortems/INC-103-rupee-nan-checkout.md",
+  "app": "shoplite",
+  "bugRef": "inc-103-bug",
+  "fixRef": "inc-103-fix",
+  "test": "guards/INC-103/regression.test.js",
+  "rule": {
+    "engine": "semgrep",
+    "path": "guards/INC-103/rule.yml",
+    "seed": { "file": "shoplite/src/pricing/lineTotal.js", "line": 15 }
+  },
+  "actionItems": [
+    {
+      "id": "AI-1",
+      "text": "Add a regression test for lineTotal that asserts PriceUnavailableError is thrown for null price",
+      "type": "test",
+      "status": "guarded",
+      "evidence": ["guards/INC-103/regression.test.js"]
+    },
+    {
+      "id": "AI-2",
+      "text": "Write a Semgrep rule flagging direct arithmetic on $X.price outside util/money.js",
+      "type": "rule",
+      "status": "guarded",
+      "evidence": ["guards/INC-103/rule.yml"]
+    },
+    {
+      "id": "AI-3",
+      "text": "Fix cartTotal.js and invoice.js to use toMoney(item.price) before arithmetic",
+      "type": "code",
+      "status": "unguarded",
+      "evidence": []
+    },
+    {
+      "id": "AI-4",
+      "text": "Add minimum-order-value guard at the checkout API layer (reject orders with total <= 0)",
+      "type": "code",
+      "status": "unguarded",
+      "evidence": []
+    },
+    {
+      "id": "AI-5",
+      "text": "Add inventory API response validation (zod/JSON schema) at the boundary",
+      "type": "process",
+      "status": "process-only",
+      "evidence": []
+    }
+  ]
+}

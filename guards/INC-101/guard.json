@@ -1,0 +1,51 @@
+{
+  "incident": "INC-101",
+  "title": "Midnight orders promised the wrong delivery date",
+  "postmortem": "postmortems/INC-101-midnight-orders.md",
+  "app": "shoplite",
+  "bugRef": "inc-101-bug",
+  "fixRef": "inc-101-fix",
+  "test": "guards/INC-101/regression.test.js",
+  "rule": {
+    "engine": "semgrep",
+    "path": "guards/INC-101/rule.yml",
+    "seed": { "file": "shoplite/src/delivery.js", "line": 22 }
+  },
+  "actionItems": [
+    {
+      "id": "AI-1",
+      "text": "Add a regression test for promisedDeliveryDate that fails on the buggy commit and passes on the fix",
+      "type": "test",
+      "status": "guarded",
+      "evidence": ["guards/INC-101/regression.test.js"]
+    },
+    {
+      "id": "AI-2",
+      "text": "Write and enforce a Semgrep rule flagging raw Date methods outside util/time.js",
+      "type": "rule",
+      "status": "guarded",
+      "evidence": ["guards/INC-101/rule.yml"]
+    },
+    {
+      "id": "AI-3",
+      "text": "Fix loyalty.js and reports/daily.js to use util/time.js helpers",
+      "type": "code",
+      "status": "unguarded",
+      "evidence": []
+    },
+    {
+      "id": "AI-4",
+      "text": "Update on-call runbook: add TZ check as first step for date/time anomaly alerts",
+      "type": "process",
+      "status": "process-only",
+      "evidence": []
+    },
+    {
+      "id": "AI-5",
+      "text": "Run regression test and rule scan in CI on every PR touching src/",
+      "type": "process",
+      "status": "process-only",
+      "evidence": []
+    }
+  ]
+}

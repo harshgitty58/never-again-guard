@@ -1,0 +1,19 @@
+rules:
+  - id: inc-102-withretry-missing-options
+    pattern: withRetry($F)
+    paths:
+      include:
+        - "*.js"
+      exclude:
+        - "**/util/retry.js"
+        - "**/test/**"
+        - "**/node_modules/**"
+    message: >
+      INC-102: withRetry($F) called without options (maxAttempts, backoffMs, jitter).
+      The default maxAttempts=Infinity can hammer external services during outages.
+      Always supply: withRetry(fn, { maxAttempts: 4, backoffMs: 200, jitter: true }).
+    languages: [javascript]
+    severity: ERROR
+    metadata:
+      incident: INC-102
+      cwe: "CWE-400: Uncontrolled Resource Consumption"
