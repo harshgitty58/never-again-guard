@@ -133,7 +133,7 @@ async function verifyIncident(incident) {
     console.log(ok('✓ passed'));
 
     // ── Step 4: Rule sanity ───────────────────────────────────────────────
-    let ruleResult = { seedMatchedOnBug: null, seedCleanOnFix: null, variants: [] };
+    let ruleResult = { seedMatchedOnBug: null, seedCleanOnFix: null, variants: [], engineError: null };
     if (guard.rule) {
       const seed = guard.rule.seed;
       const seedFile = path.normalize(seed.file);
@@ -143,7 +143,7 @@ async function verifyIncident(incident) {
       const bugScan = runRule(
         guard.rule,
         path.join(bugWorktree, path.dirname(seedFile)),
-        bugWorktree
+        REPO_ROOT  // rule.path is relative to repo root, not the worktree
       );
       const bugSeedMatch = bugScan.matches.some(
         (m) => path.normalize(m.file).endsWith(path.normalize(seedFile)) &&
@@ -165,7 +165,7 @@ async function verifyIncident(incident) {
       const fixScan = runRule(
         guard.rule,
         path.join(fixWorktree, path.dirname(seedFile)),
-        fixWorktree
+        REPO_ROOT  // rule.path is relative to repo root, not the worktree
       );
       const fixSeedMatch = fixScan.matches.some(
         (m) => path.normalize(m.file).endsWith(path.normalize(seedFile)) &&
@@ -187,6 +187,7 @@ async function verifyIncident(incident) {
       const headScanPath = path.join(REPO_ROOT, 'shoplite', 'src');
       const headScan = runRule(guard.rule, headScanPath, REPO_ROOT);
       if (headScan.error) {
+        ruleResult.engineError = headScan.error.slice(0, 120);
         console.log(warn(`skipped (${headScan.error.slice(0, 60)})`));
       } else {
         // Exclude the seed (it's been fixed in HEAD), mark others as open
@@ -239,9 +240,12 @@ async function verifyIncident(incident) {
     const unguardedCode = actionItems.some(
       (a) => a.type !== 'process' && a.status === 'unguarded'
     );
+    // ruleOk is false only if a scan ran and explicitly didn't match/clean
     const ruleOk = ruleResult.seedMatchedOnBug !== false && ruleResult.seedCleanOnFix !== false;
+    // If the engine errored, variants are unknown — treat as PARTIAL at best, not GUARDED
+    const variantsUnknown = !!ruleResult.engineError;
 
-    if (ruleOk && openVariants === 0 && !unguardedCode) {
+    if (ruleOk && !variantsUnknown && openVariants === 0 && !unguardedCode) {
       report.verdict = 'GUARDED';
     } else if (ruleOk) {
       report.verdict = 'PARTIAL';
@@ -262,7 +266,7 @@ async function verifyIncident(incident) {
       `${report.proof.bug?.failedOn === 'assertion' ? ok('✗ bug (assertion)') : fail('✗ bug (NO assertion)')}  ` +
       `${report.proof.fix?.exit === 0 ? ok('✓ fix') : fail('✗ fix')}  ` +
       (guard.rule ? `rule ${ruleOk ? ok('✓') : warn('?')}  ` : '') +
-      `variants ${openVariants > 0 ? warn(`${openVariants} open`) : ok('0 open')}  ` +
+      `variants ${variantsUnknown ? warn('? (engine error)') : openVariants > 0 ? warn(`${openVariants} open`) : ok('0 open')}  ` +
       `→ ${verdictStr}`
     );
 

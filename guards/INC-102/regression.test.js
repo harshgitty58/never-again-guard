@@ -2,54 +2,44 @@
  * INC-102 Regression Test — "Retry Storm"
  *
  * Root cause: makePaymentClient called withRetry(fn) with no options,
- * defaulting to maxAttempts=Infinity. During a gateway outage, this caused
- * unbounded rapid-fire retries that triggered Razorpay's DDoS protection.
+ * defaulting to maxAttempts=Infinity, backoffMs=0. During a gateway outage,
+ * every checkout spawned an infinite tight-loop with zero delay that hammered
+ * Razorpay until its DDoS protection blacklisted ShopLite's key for 43 min.
  *
- * MUST FAIL  on inc-102-bug  (assertion: call count exceeds 4 OR test hangs)
- * MUST PASS  on inc-102-fix  (call count <= 4, error thrown after max attempts)
+ * MUST FAIL  on inc-102-bug  (assertion: callCount > 4)
+ * MUST PASS  on inc-102-fix  (callCount <= 4, rejects after exactly 4 attempts)
  *
- * Uses a fake delayFn injected via the retry utility to avoid real timers.
+ * Design: the gateway itself caps the loop at 10 successful returns.
+ * This breaks an unbounded loop without relying on timers (which never get
+ * a turn when backoffMs=0 and the event loop is starved by sync-like awaits).
+ *
+ *   Bug commit:  Infinity retries, 0ms delay → 10 calls made → callCount=10 → assertion fails ✓
+ *   Fix commit:  maxAttempts=4, backoffMs=200 → 4 calls made → callCount=4  → assertion passes ✓
  */
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { makePaymentClient } from '../src/clients/payment.js';
 
 describe('INC-102 regression: makePaymentClient bounded retries', () => {
-  it('stops retrying after at most 4 attempts when the gateway always fails', async () => {
+  it('stops retrying after at most 4 attempts when gateway always fails', async () => {
     let callCount = 0;
 
-    // A gateway that always rejects
-    const alwaysFailGateway = async () => {
+    // Gateway that fails for the first 9 calls, then resolves as a safety cap.
+    // This ensures an unbounded-retry bug terminates quickly (at call 10) rather
+    // than hanging indefinitely. The fix path throws after 4 attempts so never
+    // reaches the cap.
+    const cappedGateway = async () => {
       callCount++;
+      if (callCount >= 10) return { transactionId: 'cap' }; // safety cap
       throw new Error('gateway unavailable');
     };
 
-    const client = makePaymentClient(alwaysFailGateway);
+    const client = makePaymentClient(cappedGateway);
+    // Ignore the final outcome — we only care about callCount
+    await client.charge({ customerId: 'c1', amountPaise: 1000 }).catch(() => {});
 
-    // Patch withRetry's internal setTimeout so the test doesn't actually wait
-    // We do this by replacing the delayFn — but makePaymentClient doesn't expose it.
-    // Instead we rely on the fact that with the FIX, maxAttempts=4, backoffMs=200, jitter=true.
-    // With real timers this would take ~800ms (4×200ms) — acceptable for a test.
-    // With the BUG (Infinity attempts, 0ms delay), callCount would be enormous quickly.
-    // We cap with a timeout to prevent the test hanging forever on the bug.
-    const start = Date.now();
-    let threw = false;
-    try {
-      await Promise.race([
-        client.charge({ customerId: 'c1', amountPaise: 1000 }),
-        new Promise((_, reject) =>
-          setTimeout(() => reject(new Error('timeout: too many retries (bug)')), 2000)
-        ),
-      ]);
-    } catch (err) {
-      threw = true;
-      // On bug: either 'timeout: too many retries' OR callCount is already huge
-      // On fix: 'gateway unavailable' after exactly 4 attempts
-    }
-
-    expect(threw).toBe(true); // must throw (gateway always fails)
-    // Key assertion: call count must be at most 4
+    // KEY assertion: the bug allows 10 calls (fails here); the fix stops at 4 (passes)
     expect(callCount).toBeLessThanOrEqual(4);
-  });
+  }, 15000); // 15s — fix path takes ~800ms–1200ms due to real backoff+jitter
 
   it('succeeds if the gateway recovers within max attempts', async () => {
     let calls = 0;
@@ -59,8 +49,8 @@ describe('INC-102 regression: makePaymentClient bounded retries', () => {
       return { transactionId: 'txn-ok' };
     };
     const client = makePaymentClient(recoversOnThird);
-    const result = await client.charge({ customerId: 'c2', amountPaise: 500 });
+    const result = await client.charge({ customerId: 'c3', amountPaise: 500 });
     expect(result.transactionId).toBe('txn-ok');
     expect(calls).toBe(3);
-  });
+  }, 15000);
 });

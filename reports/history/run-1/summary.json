@@ -1,0 +1,31 @@
+{
+  "generatedAt": "2026-09-27T06:50:15.252Z",
+  "incidents": [
+    {
+      "incident": "INC-101",
+      "title": "Midnight orders promised the wrong delivery date",
+      "verdict": "PARTIAL",
+      "variantsOpen": 3,
+      "actionItemsGuarded": 2,
+      "actionItemsTotal": 5
+    },
+    {
+      "incident": "INC-102",
+      "title": "Retry storm took down the payment gateway",
+      "verdict": "PARTIAL",
+      "variantsOpen": 2,
+      "actionItemsGuarded": 2,
+      "actionItemsTotal": 5
+    },
+    {
+      "incident": "INC-103",
+      "title": "₹NaN checkout — null price from inventory API",
+      "verdict": "PARTIAL",
+      "variantsOpen": 2,
+      "actionItemsGuarded": 2,
+      "actionItemsTotal": 5
+    }
+  ],
+  "totalVariantsOpen": 7,
+  "allGuarded": false
+}

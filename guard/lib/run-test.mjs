@@ -33,11 +33,14 @@ export function runTest(testFile, worktreePath) {
   let rawOutput = '';
   let exitCode = 0;
 
+  // Call vitest's .mjs entry point directly to avoid platform-specific .cmd/.sh issues
+  const vitestMjs = path.join(shopliteDir, 'node_modules', 'vitest', 'vitest.mjs');
+
   try {
     rawOutput = execFileSync(
       process.execPath, // node
       [
-        path.join(shopliteDir, 'node_modules', '.bin', 'vitest'),
+        vitestMjs,
         'run',
         path.join('test', testFile),
         '--reporter=json',

@@ -22,15 +22,24 @@ export function createWorktree(dest, ref, repoRoot) {
   });
 
   // Link shoplite/node_modules via junction so tests can run without npm install
-  const srcModules = path.join(repoRoot, 'shoplite', 'node_modules');
+  const srcModules = path.resolve(repoRoot, 'shoplite', 'node_modules');
   const destModules = path.join(dest, 'shoplite', 'node_modules');
   if (fs.existsSync(srcModules) && !fs.existsSync(destModules)) {
     // Use junction on Windows (works without admin); symlink on Unix
     try {
-      fs.symlinkSync(srcModules, destModules, 'junction');
-    } catch {
-      // If junction fails (e.g. cross-device), copy is not feasible — skip.
-      // Tests may fail with a module-not-found error, which the verifier will catch.
+      if (process.platform === 'win32') {
+        // On Windows, use mklink /J which is more reliable than fs.symlinkSync for junctions
+        execFileSync('cmd', ['/c', 'mklink', '/J', destModules, srcModules], { stdio: 'pipe' });
+      } else {
+        fs.symlinkSync(srcModules, destModules, 'junction');
+      }
+    } catch (e) {
+      // If junction fails, try fs.symlinkSync as fallback
+      try {
+        fs.symlinkSync(srcModules, destModules, 'junction');
+      } catch {
+        // Junction not possible — tests will fail with MODULE_NOT_FOUND
+      }
     }
   }
 }
@@ -39,6 +48,10 @@ export function createWorktree(dest, ref, repoRoot) {
  * Remove a git worktree (force, then prune).
  */
 export function removeWorktree(dest, repoRoot) {
+  // Unlink the node_modules junction FIRST. `git worktree remove --force` on
+  // Windows follows junctions and deletes the target's contents, which would
+  // wipe the real shoplite/node_modules.
+  unlinkModulesJunction(dest);
   try {
     execFileSync('git', ['worktree', 'remove', '--force', dest], {
       cwd: repoRoot,
@@ -62,6 +75,27 @@ export function removeWorktree(dest, repoRoot) {
     } catch {
       // Ignore
     }
+  }
+}
+
+/**
+ * Remove the shoplite/node_modules link inside a worktree without touching
+ * the directory it points to.
+ */
+function unlinkModulesJunction(dest) {
+  const link = path.join(dest, 'shoplite', 'node_modules');
+  let stat;
+  try {
+    stat = fs.lstatSync(link);
+  } catch {
+    return; // nothing there
+  }
+  if (!stat.isSymbolicLink()) return; // real directory — leave it to git
+  try {
+    fs.unlinkSync(link);
+  } catch {
+    // Some Windows setups require rmdir for junctions (non-recursive: removes the link only)
+    fs.rmdirSync(link);
   }
 }
 
