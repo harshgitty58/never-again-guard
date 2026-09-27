@@ -30,15 +30,15 @@
       "id": "AI-3",
       "text": "Fix inventory.js and sms.js to pass bounded retry options",
       "type": "code",
-      "status": "unguarded",
-      "evidence": []
+      "status": "guarded",
+      "evidence": ["shoplite/src/clients/inventory.js", "shoplite/src/clients/sms.js"]
     },
     {
       "id": "AI-4",
       "text": "Change withRetry default maxAttempts from Infinity to 3 with a warning",
       "type": "code",
-      "status": "unguarded",
-      "evidence": []
+      "status": "guarded",
+      "evidence": ["shoplite/src/util/retry.js"]
     },
     {
       "id": "AI-5",

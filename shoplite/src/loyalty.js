@@ -3,9 +3,10 @@
  *
  * Gives a 10% discount to customers who place an order on their birthday.
  *
- * VARIANT (INC-101): uses new Date().getDate() — server is UTC, customer is IST.
- * A customer with birthday on the 1st of a month may miss the discount at 00:00–05:30 IST.
+ * FIXED (INC-101 variant): uses IST-aware helpers from util/time.js
+ * instead of raw getDate()/getMonth() which return UTC on the production server.
  */
+import { toIST } from './util/time.js';
 
 /**
  * @param {Object} customer - { name, birthdayMonth: 1-12, birthdayDay: 1-31 }
@@ -13,9 +14,10 @@
  * @returns {number} discount fraction (0.1 = 10%, 0 = none)
  */
 export function birthdayDiscount(customer, now = new Date()) {
-  // VARIANT: uses raw getDate()/getMonth() — server-local (UTC), not IST
-  const todayDay = now.getDate();
-  const todayMonth = now.getMonth() + 1;
+  // FIXED: convert to IST before extracting day/month
+  const ist = toIST(now);
+  const todayDay = ist.getUTCDate();
+  const todayMonth = ist.getUTCMonth() + 1;
 
   if (
     todayDay === customer.birthdayDay &&

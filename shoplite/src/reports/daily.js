@@ -1,21 +1,21 @@
 /**
  * Daily sales reporting — groups orders by day.
  *
- * VARIANT (INC-101): groups by getDay() (day-of-week) but uses server-local UTC.
- * Should use IST-aware date grouping via util/time.js.
+ * FIXED (INC-101 variant): uses IST-aware date grouping via util/time.js
+ * instead of raw getDay() which returns UTC day-of-week on the production server.
  */
+import { toIST } from './util/time.js';
 
 /**
  * @param {Array<{placedAt: Date, total: number}>} orders
- * @param {Date} [now] - injectable clock for testing
- * @returns {Object} map of day-of-week index (0=Sun) → total revenue
+ * @returns {Object} map of IST day-of-week index (0=Sun) → total revenue
  */
-export function dailySalesByWeekday(orders, now = new Date()) {
+export function dailySalesByWeekday(orders) {
   const result = {};
 
   for (const order of orders) {
-    // VARIANT: getDay() uses server-local (UTC) day-of-week, not IST
-    const day = order.placedAt.getDay();
+    // FIXED: use IST day-of-week, not UTC
+    const day = toIST(order.placedAt).getUTCDay();
     result[day] = (result[day] || 0) + order.total;
   }
 

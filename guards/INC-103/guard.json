@@ -30,15 +30,15 @@
       "id": "AI-3",
       "text": "Fix cartTotal.js and invoice.js to use toMoney(item.price) before arithmetic",
       "type": "code",
-      "status": "unguarded",
-      "evidence": []
+      "status": "guarded",
+      "evidence": ["shoplite/src/pricing/cartTotal.js", "shoplite/src/invoice.js"]
     },
     {
       "id": "AI-4",
       "text": "Add minimum-order-value guard at the checkout API layer (reject orders with total <= 0)",
       "type": "code",
-      "status": "unguarded",
-      "evidence": []
+      "status": "guarded",
+      "evidence": ["shoplite/src/checkout.js"]
     },
     {
       "id": "AI-5",

@@ -1,16 +1,19 @@
 /**
  * Inventory service client.
  *
- * VARIANT (INC-102): calls withRetry(fn) with no options — same unbounded-retry
- * pattern as the payment client bug.
+ * FIXED (INC-102 variant): passes bounded retry options to withRetry.
  */
 import { withRetry } from '../util/retry.js';
 
 export function makeInventoryClient(apiFn) {
   return {
     async checkStock(skuId) {
-      // VARIANT: no maxAttempts, no backoff
-      return withRetry(() => apiFn({ skuId }));
+      // FIXED: bounded retries with backoff and jitter
+      return withRetry(() => apiFn({ skuId }), {
+        maxAttempts: 4,
+        backoffMs: 200,
+        jitter: true,
+      });
     },
   };
 }

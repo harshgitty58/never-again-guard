@@ -9,7 +9,7 @@
  */
 export async function withRetry(fn, options = {}) {
   const {
-    maxAttempts = Infinity,
+    maxAttempts = 3, // FIX(INC-102 AI-4): safe default; Infinity caused retry storms
     backoffMs = 0,
     jitter = false,
     delayFn = (ms) => new Promise((r) => setTimeout(r, ms)),

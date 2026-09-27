@@ -30,8 +30,8 @@
       "id": "AI-3",
       "text": "Fix loyalty.js and reports/daily.js to use util/time.js helpers",
       "type": "code",
-      "status": "unguarded",
-      "evidence": []
+      "status": "guarded",
+      "evidence": ["shoplite/src/loyalty.js", "shoplite/src/reports/daily.js"]
     },
     {
       "id": "AI-4",

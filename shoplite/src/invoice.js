@@ -1,9 +1,10 @@
 /**
  * Invoice generation — computes tax and total for an order.
  *
- * VARIANT (INC-103): accesses item.price directly in arithmetic without
- * going through util/money.js — same null-price vulnerability.
+ * FIXED (INC-103 variant): uses toMoney() from util/money.js before arithmetic
+ * to catch null/undefined prices from the inventory API.
  */
+import { toMoney } from './util/money.js';
 
 const GST_RATE = 0.18;
 
@@ -12,8 +13,8 @@ const GST_RATE = 0.18;
  * @returns {{ subtotal: number, tax: number, total: number }}
  */
 export function generateInvoice(items) {
-  // VARIANT: direct arithmetic on .price — NaN if any price is null
-  const subtotal = items.reduce((s, item) => s + item.price * item.qty, 0);
+  // FIXED: toMoney() throws PriceUnavailableError if any price is null/NaN
+  const subtotal = items.reduce((s, item) => s + toMoney(item.price) * item.qty, 0);
   const tax = subtotal * GST_RATE;
   const total = subtotal + tax;
   return { subtotal, tax, total };
