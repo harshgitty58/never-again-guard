@@ -54,4 +54,4 @@ Cost. One Bob task, 39.26 Bobcoins of our 40-coin budget, about 177k tokens of c
 Developer Tools, DevOps / SRE, Testing (pick the closest options offered)
 
 === TECHNOLOGIES USED ===
-IBM Bob, Vercel, React, TypeScript, Three.js, Node.js, Vite, Semgrep, Vitest (pick the ones offered)
+Vercel, Anthropic Claude (add IBM / IBM Bob if typing "IBM" in the dropdown finds it)
