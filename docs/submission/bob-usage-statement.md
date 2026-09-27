@@ -1,22 +1,30 @@
 # IBM Bob Usage Statement
 
-<!--
-  FILL BEFORE SUBMITTING. Keep every claim true; delete any line Bob didn't actually do.
-  [TODO] markers need numbers or confirmation only you have (task numbers, Bobcoins, screenshots).
-  Parts of this repo were written without Bob: the dashboard/ app, the skill templates and
-  a worktree cleanup fix in guard/lib/git.mjs, and the INC-102 test redesign idea (fixed_error.md;
-  Bob implemented it). Commits made outside Bob carry a "Co-Authored-By: Claude" trailer in the
-  public git history. Decide how to disclose those per the hackathon rules.
--->
+<!-- Plain text, paste-ready. Accurate to the Bob task screenshot: one Agent-mode task, 6/12 to-dos done.
+     Not claimed (not done by Bob): /review, the custom mode, parallel subagents, Plan mode, the dashboard. -->
 
-We used IBM Bob 2.0 in the IDE both as the core of the product and as a builder.
+We used IBM Bob 2.0 in the IDE as the engine that built and ran the core of Never Again. It was one long Agent-mode task, driven by our build plan (plan.md) and our project rules (AGENTS.md). Bob turned the plan into its own 12-step to-do list and worked through it:
 
-**As the product engine.** A project-scoped skill, *never-again* (`.bob/skills/never-again/`), and a custom mode, *Postmortem Guard* [TODO: confirm the mode is saved at project scope, and commit it if it lives in `.bob/`], encode the workflow. Bob's document understanding reads each postmortem in `postmortems/` and extracts the root cause, trigger, seed file and line, bug and fix git refs, and action items. For each incident Bob wrote the regression test, the Semgrep rule and the `guard.json` manifest in `guards/INC-xxx/` [TODO: confirm "one subagent per incident, in parallel" — task 07]. After the first verifier run found 7 variants, Bob fixed all of them and reran the verifier until every incident was GUARDED (task 07b).
+1. Demo app with real incident history. Bob built shoplite/, an Express + Vitest shop with three production-style bugs plus planted look-alike variants, committed with real git history and annotated tags (inc-101-bug / inc-101-fix and so on), keeping the app's own tests green at every tag. It pushed the scaffold to GitHub.
 
-**As the builder.** `/init` generated `AGENTS.md`. Plan mode opened each phase before Agent mode implemented it: the shoplite demo app with real `inc-10x-bug` / `inc-10x-fix` git tags, the three postmortems, and the verifier CLI (`guard/`) with anti-cheat checks and worktree cleanup. [TODO: `/review` on `guard/` — number of findings fixed, task 05.] Bob also wrote the conventional commit messages. Auto-approve was scoped to read and edit, and every command execution was approved manually.
+2. Postmortems. Bob wrote three realistic postmortems in postmortems/ with timelines, customer impact, 5-whys root causes and action items, including process-only ones.
 
-**Guardrails: Bob generates, a deterministic verifier judges.** The mode's instructions forbid editing application source while writing a guard. They also require Bob to quote the verifier's real verdict from `reports/INC-xxx.json` instead of claiming success, and to classify process-only action items honestly. When a guard failed verification, Bob had to fix the guard, not the app. For example, the INC-102 retry test first hung because an unbounded zero-delay retry loop never lets a timer fire. It was redesigned so the fake gateway itself caps the loop, which makes the bug fail on an assertion in about 1 s.
+3. Verifier CLI. Bob wrote guard/verify.mjs and its libraries: git worktree handling, a Vitest runner that parses JSON results and tells assertion failures from crashes, a Semgrep runner, anti-cheat checks and the report writer, with zero production dependencies.
 
-**IBM watsonx.ai / watsonx Orchestrate.** Not used in this build. We kept AI out of the judging step on purpose: the verdict comes only from the deterministic verifier. The roadmap (slide 8) has two natural places for them. watsonx.ai (Granite) could extract postmortem fields in a GitHub Action for teams that don't run Bob in the IDE. watsonx Orchestrate could schedule and chase the process-only action items (runbooks, on-call changes) that code can't guard.
+4. Guards from documents. Reading each postmortem, Bob extracted the root cause, seed file and line, bug and fix refs, and action items, then wrote guards/INC-101, INC-102 and INC-103: guard.json, regression.test.js and a Semgrep rule.yml.
 
-**Evidence.** [TODO: N] task session screenshots are in `bob_sessions/` (`neveragain_taskNN_*.png`). Total Bobcoin cost: [TODO: X].
+5. Run 1. Bob ran the verifier: all three incidents PARTIAL, with 7 open variants, saved to reports/history/run-1.
+
+6. Variant fixes. Bob fixed all 7 variants in shoplite/src, then reran the app tests and the verifier: all three GUARDED, 0 open, saved to reports/history/run-2.
+
+7. Reusable skill. Bob created the project skill never-again (.bob/skills/never-again/SKILL.md), which captures the postmortem-to-guard workflow for future incidents.
+
+8. Debugging. When the verifier couldn't launch Semgrep on Windows, Bob traced the cause (the semgrep.exe wrapper needs its Scripts folder on PATH) and added fallback resolution in guard/lib/run-rule.mjs. When the INC-102 retry test hung, it was redesigned so the fake gateway caps the loop and the bug fails on an assertion in about 1 second.
+
+Guardrails. Bob generates; a deterministic verifier judges. Bob worked under the AGENTS.md rules: never edit shoplite/src while writing a guard, quote the verifier's real verdict from reports/ instead of claiming success, fix the guard rather than the app when verification fails, and classify runbook and on-call items as process-only. Bob also wrote our conventional commit messages.
+
+[DISCLOSURE — edit to taste: The 3D dashboard (dashboard/), the skill templates, the submission docs and one verifier cleanup fix were built with a separate AI coding assistant after our Bob budget ran out; those commits are marked in the git history.]
+
+IBM watsonx.ai / watsonx Orchestrate. Not used in this build. We kept AI out of the judging step on purpose. On our roadmap, watsonx.ai (Granite) would extract postmortem fields in a GitHub Action for teams without Bob in the IDE, and watsonx Orchestrate would schedule and chase the process-only action items that code can't guard.
+
+Cost. One Bob task, 39.26 Bobcoins of our 40-coin budget, about 177k tokens of context.

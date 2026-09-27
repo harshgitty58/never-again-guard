@@ -1,0 +1,57 @@
+=== SUBMISSION TITLE ===
+Never Again: Postmortem to Regression Guard
+
+=== SHORT DESCRIPTION ===
+Turns incident postmortems into proven regression guards: a test that fails on the bug and passes on the fix, a rule that finds the same mistake elsewhere, and an action-item audit. Built with IBM Bob 2.0.
+
+=== LONG DESCRIPTION ===
+Problem. After every serious incident, teams write a postmortem with action items: add a test, check for similar code, update the runbook. Those items live in a document, drift, and are rarely closed, which makes the same incident far more likely to come back. Two gaps make it worse. Even when someone says "we added a test", nothing proves that test would have caught the original bug. And the root-cause pattern almost always exists in other files, where nobody goes looking.
+
+Target users. SRE, platform and backend teams who run postmortems and want proof the follow-up happened.
+
+Solution. Never Again turns a postmortem into a guard the codebase can't forget, and proves it. Inside IBM Bob 2.0, guided by our never-again skill and project rules, Bob reads the postmortem and extracts the root cause, trigger, seed location and action items. For each incident Bob generates a regression test, a Semgrep rule generalized from the root cause, and a guard manifest that audits every action item.
+
+How it works. An independent, deterministic verifier, not the AI, decides whether the guard is real. It checks out the buggy commit in a throwaway git worktree and requires the test to fail on an assertion (crashes don't count). It checks out the fix and requires the test to pass. It confirms the rule matches the original bug and not the fix, then scans the whole app for variants: other files with the same mistake. Anti-cheat checks reject skipped, assertion-free or self-mocking tests. Bob fixes the variants and the verifier reruns until every incident is GUARDED; its exit code is 0 only then. Users interact through Bob in the IDE, one CLI command (npm run guard -- --all), and a 3D dashboard that reads only the verifier's JSON reports.
+
+What makes it unique. Most AI coding tools ask you to trust their output. Here Bob generates and a verifier judges, so the AI never grades its own homework. It also brings variant analysis, a security-research technique, to reliability incidents, and it audits postmortem action items honestly, marking runbook and on-call items as process-only instead of inventing code evidence.
+
+Results on our demo app (three incidents modeled on real-world failures: a time-zone bug that promised midnight orders the wrong delivery date, a retry storm that took down a payment gateway, and a null price that produced ₹NaN checkouts):
+- All 3 regression tests proven both ways: fail on an assertion at the bug commit, pass at the fix commit.
+- 7 hidden variants found by the rules in run 1; all 7 fixed and proven closed in run 2.
+- Code action items with file evidence went from 6 of 11 to 11 of 11; 4 process-only items labeled honestly.
+- Full verification of all three incidents runs in under a minute, also on a fresh clone.
+
+Impact. Fewer repeat incidents, postmortem follow-up in minutes instead of sprints, and evidence instead of claims. Next: a GitHub Action that runs the guard on every merged postmortem.
+
+=== IBM BOB USAGE STATEMENT ===
+We used IBM Bob 2.0 in the IDE as the engine that built and ran the core of Never Again. It was one long Agent-mode task, driven by our build plan (plan.md) and our project rules (AGENTS.md). Bob turned the plan into its own 12-step to-do list and worked through it:
+
+1. Demo app with real incident history. Bob built shoplite/, an Express + Vitest shop with three production-style bugs plus planted look-alike variants, committed with real git history and annotated tags (inc-101-bug / inc-101-fix and so on), keeping the app's own tests green at every tag. It pushed the scaffold to GitHub.
+
+2. Postmortems. Bob wrote three realistic postmortems in postmortems/ with timelines, customer impact, 5-whys root causes and action items, including process-only ones.
+
+3. Verifier CLI. Bob wrote guard/verify.mjs and its libraries: git worktree handling, a Vitest runner that parses JSON results and tells assertion failures from crashes, a Semgrep runner, anti-cheat checks and the report writer, with zero production dependencies.
+
+4. Guards from documents. Reading each postmortem, Bob extracted the root cause, seed file and line, bug and fix refs, and action items, then wrote guards/INC-101, INC-102 and INC-103: guard.json, regression.test.js and a Semgrep rule.yml.
+
+5. Run 1. Bob ran the verifier: all three incidents PARTIAL, with 7 open variants, saved to reports/history/run-1.
+
+6. Variant fixes. Bob fixed all 7 variants in shoplite/src, then reran the app tests and the verifier: all three GUARDED, 0 open, saved to reports/history/run-2.
+
+7. Reusable skill. Bob created the project skill never-again (.bob/skills/never-again/SKILL.md), which captures the postmortem-to-guard workflow for future incidents.
+
+8. Debugging. When the verifier couldn't launch Semgrep on Windows, Bob traced the cause (the semgrep.exe wrapper needs its Scripts folder on PATH) and added fallback resolution in guard/lib/run-rule.mjs. When the INC-102 retry test hung, it was redesigned so the fake gateway caps the loop and the bug fails on an assertion in about 1 second.
+
+Guardrails. Bob generates; a deterministic verifier judges. Bob worked under the AGENTS.md rules: never edit shoplite/src while writing a guard, quote the verifier's real verdict from reports/ instead of claiming success, fix the guard rather than the app when verification fails, and classify runbook and on-call items as process-only. Bob also wrote our conventional commit messages.
+
+[DISCLOSURE — edit to taste: The 3D dashboard (dashboard/), the skill templates, the submission docs and one verifier cleanup fix were built with a separate AI coding assistant after our Bob budget ran out; those commits are marked in the git history.]
+
+IBM watsonx.ai / watsonx Orchestrate. Not used in this build. We kept AI out of the judging step on purpose. On our roadmap, watsonx.ai (Granite) would extract postmortem fields in a GitHub Action for teams without Bob in the IDE, and watsonx Orchestrate would schedule and chase the process-only action items that code can't guard.
+
+Cost. One Bob task, 39.26 Bobcoins of our 40-coin budget, about 177k tokens of context.
+
+=== CATEGORIES ===
+Developer Tools, DevOps / SRE, Testing (pick the closest options offered)
+
+=== TECHNOLOGIES USED ===
+IBM Bob, Vercel, React, TypeScript, Three.js, Node.js, Vite, Semgrep, Vitest (pick the ones offered)
