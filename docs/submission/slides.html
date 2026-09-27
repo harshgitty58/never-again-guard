@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Never Again — slides</title>
+<!-- Source for slides.pdf. Rebuild: chrome --headless --print-to-pdf=slides.pdf --no-pdf-header-footer slides.html -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+<style>
+  @page { size: 1280px 720px; margin: 0; }
+  :root {
+    --bg: #07090d; --surface: #0e1218; --border: #1c2330; --text: #e6eaf2; --muted: #8a94a6;
+    --red: #ff4d5e; --amber: #ffb547; --green: #2bd99f; --accent: #4589ff;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--text); font: 400 20px/1.5 'Inter', sans-serif;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact; font-variant-ligatures: none; }
+  .slide { width: 1280px; height: 720px; padding: 64px 80px; position: relative; overflow: hidden;
+    page-break-after: always; break-after: page; display: flex; flex-direction: column; }
+  .slide:last-child { page-break-after: auto; break-after: auto; }
+  h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; margin: 0; letter-spacing: -0.02em; }
+  h2 { font-size: 44px; font-weight: 600; line-height: 1.1; margin-bottom: 36px; max-width: 1000px; }
+  h3 { font-size: 22px; font-weight: 600; margin-bottom: 8px; }
+  p { margin: 0; }
+  .kicker { font: 500 15px 'JetBrains Mono', monospace; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
+  .muted { color: var(--muted); }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  .red { color: var(--red); } .green { color: var(--green); } .amber { color: var(--amber); }
+  .num { position: absolute; right: 48px; bottom: 32px; font: 500 14px 'JetBrains Mono', monospace; color: var(--muted); }
+  .grid { display: grid; gap: 20px; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 26px 28px; }
+  .card p { color: var(--muted); font-size: 18px; }
+  .shot { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .shot { margin: 0; position: relative; }
+  .shot img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 82% 50%; }
+  .shot figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 14px 20px; font: 500 16px 'JetBrains Mono', monospace; background: linear-gradient(transparent, #07090dee 40%); }
+  .tag { display: inline-block; font: 500 13px 'JetBrains Mono', monospace; color: var(--accent); background: rgba(69,137,255,.12); border-radius: 6px; padding: 3px 9px; margin-top: 12px; }
+  .tag.g { color: var(--green); background: rgba(43,217,159,.12); }
+
+  /* 1 — title */
+  .title { padding: 0; }
+  .title img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: right center; opacity: .9; }
+  .title .veil { position: absolute; inset: 0; background: linear-gradient(90deg, #07090d 0%, #07090df2 42%, #07090d40 70%, transparent); }
+  .title .copy { position: relative; padding: 0 80px; margin: auto 0; max-width: 700px; }
+  .title h1 { font-size: 92px; font-weight: 700; line-height: .95; letter-spacing: -0.035em; }
+  .title .tagline { font-size: 28px; margin-top: 24px; line-height: 1.3; }
+  .title .by { margin-top: 36px; font: 500 16px 'JetBrains Mono', monospace; color: var(--muted); }
+
+  /* 3 — insight */
+  .vs { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 8px; }
+  .term { background: #090c11; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; border-top: 3px solid; }
+  .term.r { border-top-color: var(--red); } .term.g { border-top-color: var(--green); }
+  .term .bar { padding: 10px 18px; border-bottom: 1px solid var(--border); font: 500 15px 'JetBrains Mono', monospace; color: var(--muted); display: flex; justify-content: space-between; }
+  .term pre { margin: 0; padding: 20px 22px; font: 17px/1.7 'JetBrains Mono', monospace; white-space: pre-wrap; }
+
+  /* 5 — architecture */
+  .flow { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+  .flow .card { padding: 20px; display: flex; flex-direction: column; }
+  .flow .card p { font-size: 15.5px; flex: 1; }
+  .flow .n { font: 500 14px 'JetBrains Mono', monospace; color: var(--accent); margin-bottom: 8px; }
+  .flow .judge { border-color: rgba(43,217,159,.5); }
+  .loop { margin-top: 26px; font-size: 18px; color: var(--muted); }
+
+  /* 7 — impact */
+  .kpis { grid-template-columns: repeat(4, 1fr); }
+  .kpi .v { font: 700 58px/1 'Space Grotesk', sans-serif; letter-spacing: -0.03em; margin-bottom: 12px; }
+  .kpi .v small { font-size: 26px; color: var(--muted); font-weight: 500; }
+  .foot { margin-top: auto; font-size: 15px; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<!-- 1 -->
+<section class="slide title">
+  <img src="img/scene-after.png" alt="" />
+  <div class="veil"></div>
+  <div class="copy">
+    <div class="kicker">Postmortem → Regression Guard</div>
+    <h1>Never<br />Again</h1>
+    <p class="tagline">Every postmortem becomes a guard your code can't forget.</p>
+    <p class="by">Built with IBM Bob 2.0<br />github.com/harshgitty58/never-again-guard</p>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="slide">
+  <div class="kicker">The problem</div>
+  <h2>Postmortem action items drift, and the same bug comes back.</h2>
+  <div class="grid" style="grid-template-columns: repeat(3, 1fr);">
+    <div class="card"><h3>Items live in a doc</h3><p>"Add a test", "check similar code", "update the runbook". They get tracked as tickets and are rarely closed.</p></div>
+    <div class="card"><h3>"We added a test"</h3><p>Nothing proves that test would have failed on the broken code. A test that always passes guards nothing.</p></div>
+    <div class="card"><h3>Same mistake, other files</h3><p>The root-cause pattern is almost always copy-pasted elsewhere, and nobody goes looking.</p></div>
+  </div>
+  <p class="foot">Incomplete action items make recurrence more likely (Google SRE workbook, postmortem culture).</p>
+  <span class="num">02</span>
+</section>
+
+<!-- 3 -->
+<section class="slide">
+  <div class="kicker">The insight</div>
+  <h2>Prove, don't claim. <span class="muted">Bob generates; a deterministic verifier judges.</span></h2>
+  <div class="vs">
+    <div class="term r">
+      <div class="bar"><span>@ inc-102-bug</span><span>EXPECT FAIL</span></div>
+      <pre><span class="muted">$ vitest run regression.test.js</span>
+<span class="red">✗ FAIL</span>  failedOn: assertion
+  expected 10 to be less than or equal to 4
+<span class="muted">exit 1 · 1.1 s</span></pre>
+    </div>
+    <div class="term g">
+      <div class="bar"><span>@ inc-102-fix</span><span>EXPECT PASS</span></div>
+      <pre><span class="muted">$ vitest run regression.test.js</span>
+<span class="green">✓ PASS</span>  all assertions hold
+
+<span class="muted">exit 0 · 3.2 s</span></pre>
+    </div>
+  </div>
+  <p class="foot">Same test, two throwaway git worktrees. A crash or import error on the bug commit doesn't count. Anti-cheat rejects skipped, assertion-free or self-mocking tests.</p>
+  <span class="num">03</span>
+</section>
+
+<!-- 4 -->
+<section class="slide">
+  <div class="kicker">The solution</div>
+  <h2>One postmortem in, four verified outputs out.</h2>
+  <div class="grid" style="grid-template-columns: 1fr 1fr;">
+    <div class="card"><h3>1 · Regression test</h3><p>Fails on an assertion at the bug commit and passes at the fix commit. Proven both ways.</p></div>
+    <div class="card"><h3>2 · Variant rule</h3><p>A Semgrep rule generalized from the root cause. It must match the bug and not the fix, then it scans the whole app.</p></div>
+    <div class="card"><h3>3 · Variant fixes</h3><p>Bob fixes every variant the rule finds. The verifier reruns until none are open.</p></div>
+    <div class="card"><h3>4 · Action-item audit</h3><p>Every item is marked guarded / partial / unguarded / process-only, with file evidence. No invented code for runbooks.</p></div>
+  </div>
+  <span class="num">04</span>
+</section>
+
+<!-- 5 -->
+<section class="slide">
+  <div class="kicker">Architecture · IBM Bob 2.0 features</div>
+  <h2>Bob does the generating. The judging is deliberately not AI.</h2>
+  <div class="flow">
+    <div class="card"><span class="n">01</span><h3>Postmortem</h3><p>Markdown: root cause, trigger, seed, action items.</p><span class="tag">Document understanding</span></div>
+    <div class="card"><span class="n">02</span><h3>Bob reads</h3><p>Pulls out refs and the seed location, and plans before writing anything.</p><span class="tag">Custom mode · Plan</span></div>
+    <div class="card"><span class="n">03</span><h3>Guard generated</h3><p>test + rule + guard.json per incident.</p><span class="tag">Subagents · Skill</span></div>
+    <div class="card judge"><span class="n">04</span><h3>Verifier proves</h3><p>Worktrees at both commits, anti-cheat, rule sanity checks, variant hunt.</p><span class="tag g">No AI</span></div>
+    <div class="card"><span class="n">05</span><h3>Variants fixed</h3><p>Bob fixes them, then the verifier reruns until exit 0.</p><span class="tag">Agent mode</span></div>
+  </div>
+  <p class="loop">Output: <span class="mono">reports/INC-xxx.json</span> → static 3D dashboard on Vercel. Guardrails live in the mode: never edit app source while guarding, and always quote the verifier's real verdict.</p>
+  <span class="num">05</span>
+</section>
+
+<!-- 6 -->
+<section class="slide">
+  <div class="kicker">Proof on the demo app</div>
+  <h2 style="margin-bottom: 24px;">Run 1 found <span class="red">7 hidden variants</span>. Run 2: <span class="green">0 open</span>.</h2>
+  <div class="grid" style="grid-template-columns: 1fr 1fr; flex: 1; min-height: 0;">
+    <figure class="shot"><img src="img/scene-before.png" alt="Run 1: 3 incidents PARTIAL, 7 open variants" /><figcaption><span class="amber">run 1</span> · 3 PARTIAL · <span class="red">7 open variants</span></figcaption></figure>
+    <figure class="shot"><img src="img/scene-after.png" alt="Run 2: all guarded" /><figcaption><span class="green">run 2</span> · 3 GUARDED · 0 open · verifier exit 0</figcaption></figure>
+  </div>
+  <span class="num">06</span>
+</section>
+
+<!-- 7 -->
+<section class="slide">
+  <div class="kicker">Impact · all numbers from verifier reports</div>
+  <h2>Evidence instead of claims.</h2>
+  <div class="grid kpis">
+    <div class="card kpi"><div class="v green">3<small>/3</small></div><p>incidents GUARDED: time zone, retry storm, ₹NaN checkout</p></div>
+    <div class="card kpi"><div class="v">7<small> → 0</small></div><p>hidden variants found by the rules, then fixed and proven closed</p></div>
+    <div class="card kpi"><div class="v">11<small>/11</small></div><p>code action items with file evidence (6/11 before); 4 honestly process-only</p></div>
+    <div class="card kpi"><div class="v">&lt;1<small> min</small></div><p>full verification of all incidents, also on a fresh clone</p></div>
+  </div>
+  <p class="foot">[TODO: Bob time per incident, from task timestamps] vs. an estimated 2–3 h by hand (reproduce, write the test, grep for variants, fix, audit).</p>
+  <span class="num">07</span>
+</section>
+
+<!-- 8 -->
+<section class="slide">
+  <div class="kicker">What's next</div>
+  <h2>From a hackathon demo to part of every incident's follow-up.</h2>
+  <div class="grid" style="grid-template-columns: 1fr 1fr;">
+    <div class="card"><h3>GitHub Action</h3><p>Run the guard on every merged postmortem PR, and block merges that reintroduce a guarded pattern.</p></div>
+    <div class="card"><h3>Import from incident tools</h3><p>Pull postmortems and action items from incident.io and Jira instead of markdown only.</p></div>
+    <div class="card"><h3>Follow-up automation</h3><p>Schedule process-only action items (runbooks, on-call changes) with watsonx Orchestrate.</p></div>
+    <div class="card"><h3>More languages</h3><p>Rule packs beyond JavaScript: Python, Java and Go via Semgrep.</p></div>
+  </div>
+  <p class="foot">Team: [TODO: names] · Built with IBM Bob 2.0 · MIT</p>
+  <span class="num">08</span>
+</section>
+
+</body>
+</html>

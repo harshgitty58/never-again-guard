@@ -115,7 +115,7 @@ Planted variants are committed as regular feature work and **intentionally left 
 | Script | Command | Purpose |
 |--------|---------|---------|
 | `npm run guard` | `node guard/verify.mjs` | Run verifier on all or one incident (`--all` or `INC-101`) |
-| `npm run sync-reports` | Node `fs.cpSync` | Copy `reports/*.json` → `dashboard/public/reports/` |
+| `npm run sync-reports` | `node dashboard/scripts/sync.mjs` | Copy `reports/` → `dashboard/public/reports/` and extract variant before/after code into `snippets.json` (needs full git history) |
 | `npm run test:app` | `cd shoplite && npx vitest run` | Run shoplite's own test suite |
 
 ---
@@ -198,8 +198,8 @@ Exit code 0 only if **all** incidents are `GUARDED`.
 ## Current state
 
 - [x] P0: Scaffold committed — LICENSE, .bobignore, package.json, bob_sessions/, empty folders
-- [ ] P1: shoplite app + git tags + postmortems
-- [ ] P2: Guard engine + custom mode + skill + reports
-- [ ] P3: Dashboard + Vercel deploy
-- [ ] P4: Submission assets
+- [x] P1: shoplite app + git tags + postmortems
+- [x] P2: Guard engine + skill + reports — all 3 GUARDED, 7 → 0 variants (custom mode lives in Bob settings)
+- [ ] P3: Dashboard built (`dashboard/`) — Vercel deploy pending
+- [ ] P4: README, statements, slides.pdf, cover done — `[TODO]`s in docs/submission/, video, bob_sessions screenshots pending
 - [ ] P5: Submitted

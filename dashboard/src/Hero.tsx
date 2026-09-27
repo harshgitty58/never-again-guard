@@ -7,6 +7,8 @@ const Scene = lazy(() => import('./scene/Scene'));
 
 const STEP_MS = 450;
 const AUTOPLAY_DELAY_MS = 1400;
+/** `?autoplay=0` holds the run-1 state until Replay is clicked (for demos and recordings). */
+const AUTOPLAY = new URLSearchParams(window.location.search).get('autoplay') !== '0';
 
 function supportsWebGL() {
   try {
@@ -78,7 +80,7 @@ export default function Hero({ data }: { data: Dataset }) {
   }, [lastStep, reduced]);
 
   useEffect(() => {
-    if (reduced) return;
+    if (reduced || !AUTOPLAY) return;
     const t = window.setTimeout(replay, AUTOPLAY_DELAY_MS);
     return () => {
       window.clearTimeout(t);
@@ -105,7 +107,10 @@ export default function Hero({ data }: { data: Dataset }) {
     0,
   );
   const guardedNow = sceneIncidents.filter((inc) => isDone(inc, step) && inc.guarded).length;
-  const items = data.incidents.flatMap((i) => i.current.actionItems);
+  // Action items follow the replay: run-1 audit until each incident flips, then the latest.
+  const items = data.incidents.flatMap((inc, i) =>
+    isDone(sceneIncidents[i], step) ? inc.current.actionItems : inc.before.actionItems,
+  );
   const codeItems = items.filter((a) => a.status !== 'process-only');
   const withEvidence = codeItems.filter((a) => a.status === 'guarded').length;
   const processOnly = items.length - codeItems.length;
