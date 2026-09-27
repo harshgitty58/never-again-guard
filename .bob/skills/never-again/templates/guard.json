@@ -1,0 +1,44 @@
+{
+  "incident": "INC-XXX",
+  "title": "<same title as the postmortem H1>",
+  "postmortem": "postmortems/INC-XXX-<slug>.md",
+  "app": "shoplite",
+  "bugRef": "inc-xxx-bug",
+  "fixRef": "inc-xxx-fix",
+  "test": "guards/INC-XXX/regression.test.js",
+  "rule": {
+    "engine": "semgrep",
+    "path": "guards/INC-XXX/rule.yml",
+    "seed": { "file": "shoplite/src/<file>.js", "line": 0 }
+  },
+  "actionItems": [
+    {
+      "id": "AI-1",
+      "text": "<verbatim action item text from the postmortem>",
+      "type": "test",
+      "status": "guarded",
+      "evidence": ["guards/INC-XXX/regression.test.js"]
+    },
+    {
+      "id": "AI-2",
+      "text": "<…>",
+      "type": "rule",
+      "status": "guarded",
+      "evidence": ["guards/INC-XXX/rule.yml"]
+    },
+    {
+      "id": "AI-3",
+      "text": "<…>",
+      "type": "code",
+      "status": "unguarded",
+      "evidence": ["shoplite/src/<variant>.js"]
+    },
+    {
+      "id": "AI-4",
+      "text": "<runbook / on-call / docs change>",
+      "type": "process",
+      "status": "process-only",
+      "evidence": []
+    }
+  ]
+}

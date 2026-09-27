@@ -6,12 +6,12 @@
     "bug": {
       "exit": 1,
       "failedOn": "assertion",
-      "ms": 1452,
+      "ms": 934,
       "excerpt": "expected '2026-09-27' to be '2026-09-28' // Object.is equality"
     },
     "fix": {
       "exit": 0,
-      "ms": 1413
+      "ms": 1303
     }
   },
   "rule": {
@@ -76,7 +76,7 @@
     "violations": []
   },
   "timings": {
-    "totalMs": 18109
+    "totalMs": 14269
   },
-  "generatedAt": "2026-09-27T06:56:15.107Z"
+  "generatedAt": "2026-09-27T07:01:17.100Z"
 }

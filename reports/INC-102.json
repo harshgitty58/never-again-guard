@@ -6,12 +6,12 @@
     "bug": {
       "exit": 1,
       "failedOn": "assertion",
-      "ms": 1820,
+      "ms": 1076,
       "excerpt": "expected 10 to be less than or equal to 4"
     },
     "fix": {
       "exit": 0,
-      "ms": 3331
+      "ms": 3231
     }
   },
   "rule": {
@@ -78,7 +78,7 @@
     "violations": []
   },
   "timings": {
-    "totalMs": 17899
+    "totalMs": 14070
   },
-  "generatedAt": "2026-09-27T06:56:33.565Z"
+  "generatedAt": "2026-09-27T07:01:31.759Z"
 }
