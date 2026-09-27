@@ -1,1 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#07090D"/><path d="M16 4 26 9.5v7.2c0 5.6-4.1 9.9-10 11.3-5.9-1.4-10-5.7-10-11.3V9.5z" fill="none" stroke="#2BD99F" stroke-width="2.2" stroke-linejoin="round"/><path d="m11.5 16.2 3.2 3.2 6-6.4" fill="none" stroke="#2BD99F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <!-- Tab icon: simplified mark on a dark tile so it reads on light and dark browser chrome. -->
+  <defs>
+    <linearGradient id="s" x1="6" y1="4" x2="26" y2="28" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6FF2C6"/>
+      <stop offset="1" stop-color="#1FB887"/>
+    </linearGradient>
+  </defs>
+  <rect width="32" height="32" rx="8" fill="#0B0C0E"/>
+  <path d="M16 4.2 26.4 10.2v11.6L16 27.8 5.6 21.8V10.2z" fill="#2BD99F" fill-opacity=".14" stroke="url(#s)" stroke-width="2.2" stroke-linejoin="round"/>
+  <path d="m11.2 16.3 3.3 3.3 6.4-6.8" stroke="#EDFFF8" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

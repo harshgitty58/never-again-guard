@@ -133,7 +133,7 @@ export default function Hero({ data }: { data: Dataset }) {
 
       <nav className="topbar">
         <span className="brand">
-          <img src="/favicon.svg" alt="" width={22} height={22} /> Never Again
+          <img src="/logo.svg" alt="" width={24} height={24} /> Never Again
         </span>
         <span className="topbar-links">
           <a href="#proof">Proof</a>
