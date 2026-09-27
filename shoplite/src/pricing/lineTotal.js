@@ -1,10 +1,11 @@
 /**
  * Line-item total calculation.
  *
- * BUG (INC-103): multiplies item.price * qty directly without validating price.
- * If the inventory API returns price: null (discontinued SKU), the result is NaN.
- * Customers saw "₹NaN" in their cart and orders with ₹0 total were accepted.
+ * FIX (INC-103): validates price through toMoney() before arithmetic.
+ * Throws PriceUnavailableError for null/NaN prices instead of silently
+ * producing NaN that propagates to the customer's cart display.
  */
+import { toMoney } from '../util/money.js';
 
 /**
  * @param {{ price: number|null }} item - item from inventory API
@@ -12,6 +13,6 @@
  * @returns {number} line total in rupees
  */
 export function lineTotal(item, qty) {
-  // BUG: no null/NaN guard — if item.price is null this returns NaN
-  return item.price * qty;
+  // FIX: toMoney() throws PriceUnavailableError if price is null/NaN
+  return toMoney(item.price) * qty;
 }
