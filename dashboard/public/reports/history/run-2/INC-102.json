@@ -1,0 +1,84 @@
+{
+  "incident": "INC-102",
+  "title": "Retry storm took down the payment gateway",
+  "verdict": "GUARDED",
+  "proof": {
+    "bug": {
+      "exit": 1,
+      "failedOn": "assertion",
+      "ms": 1820,
+      "excerpt": "expected 10 to be less than or equal to 4"
+    },
+    "fix": {
+      "exit": 0,
+      "ms": 3331
+    }
+  },
+  "rule": {
+    "engine": "semgrep",
+    "seedMatchedOnBug": true,
+    "seedCleanOnFix": true,
+    "variants": [],
+    "engineError": null
+  },
+  "actionItems": [
+    {
+      "id": "AI-1",
+      "text": "Add a regression test that asserts call count <= 4 and that the client fails properly on always-failing gateway",
+      "type": "test",
+      "status": "guarded",
+      "evidence": [
+        "guards/INC-102/regression.test.js"
+      ]
+    },
+    {
+      "id": "AI-2",
+      "text": "Write a Semgrep rule flagging withRetry($F) with exactly one argument",
+      "type": "rule",
+      "status": "guarded",
+      "evidence": [
+        "guards/INC-102/rule.yml"
+      ]
+    },
+    {
+      "id": "AI-3",
+      "text": "Fix inventory.js and sms.js to pass bounded retry options",
+      "type": "code",
+      "status": "guarded",
+      "evidence": [
+        "shoplite/src/clients/inventory.js",
+        "shoplite/src/clients/sms.js"
+      ]
+    },
+    {
+      "id": "AI-4",
+      "text": "Change withRetry default maxAttempts from Infinity to 3 with a warning",
+      "type": "code",
+      "status": "guarded",
+      "evidence": [
+        "shoplite/src/util/retry.js"
+      ]
+    },
+    {
+      "id": "AI-5",
+      "text": "Document always-supply-retry-options rule in CONTRIBUTING.md",
+      "type": "process",
+      "status": "process-only",
+      "evidence": []
+    }
+  ],
+  "anticheat": {
+    "passed": true,
+    "checks": [
+      "has-expect",
+      "no-skip",
+      "no-self-mock",
+      "no-guards-import"
+    ],
+    "violations": []
+  },
+  "timings": {
+    "totalMs": 17899
+  },
+  "generatedAt": "2026-09-27T06:56:33.565Z"
+}

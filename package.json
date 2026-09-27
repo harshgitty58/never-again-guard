@@ -5,7 +5,7 @@
   "description": "Turns incident postmortems into proven regression tests, variant-hunting rules and an action-item audit — built with IBM Bob 2.0.",
   "scripts": {
     "guard": "node guard/verify.mjs",
-    "sync-reports": "node -e \"import('fs').then(({cpSync})=>cpSync('reports','dashboard/public/reports',{recursive:true,force:true}))\"",
+    "sync-reports": "node dashboard/scripts/sync.mjs",
     "test:app": "cd shoplite && npx vitest run"
   },
   "engines": {

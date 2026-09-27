@@ -1,0 +1,55 @@
+{
+  "run1Commit": "6570465",
+  "run2Commit": "46de8c0",
+  "variants": {
+    "shoplite/src/loyalty.js:17": {
+      "before": "const todayDay = now.getDate();",
+      "after": {
+        "line": 19,
+        "code": "const todayDay = ist.getUTCDate();"
+      }
+    },
+    "shoplite/src/loyalty.js:18": {
+      "before": "const todayMonth = now.getMonth() + 1;",
+      "after": {
+        "line": 20,
+        "code": "const todayMonth = ist.getUTCMonth() + 1;"
+      }
+    },
+    "shoplite/src/reports/daily.js:18": {
+      "before": "const day = order.placedAt.getDay();",
+      "after": {
+        "line": 18,
+        "code": "const day = toIST(order.placedAt).getUTCDay();"
+      }
+    },
+    "shoplite/src/clients/inventory.js:13": {
+      "before": "return withRetry(() => apiFn({ skuId }));",
+      "after": {
+        "line": 12,
+        "code": "return withRetry(() => apiFn({ skuId }), {\n  maxAttempts: 4,\n  backoffMs: 200,\n  jitter: true,\n});"
+      }
+    },
+    "shoplite/src/clients/sms.js:13": {
+      "before": "return withRetry(() => smsFn(message));",
+      "after": {
+        "line": 12,
+        "code": "return withRetry(() => smsFn(message), {\n  maxAttempts: 4,\n  backoffMs: 200,\n  jitter: true,\n});"
+      }
+    },
+    "shoplite/src/invoice.js:16": {
+      "before": "const subtotal = items.reduce((s, item) => s + item.price * item.qty, 0);",
+      "after": {
+        "line": 17,
+        "code": "const subtotal = items.reduce((s, item) => s + toMoney(item.price) * item.qty, 0);"
+      }
+    },
+    "shoplite/src/pricing/cartTotal.js:14": {
+      "before": "return items.reduce((sum, item) => sum + item.price * item.qty, 0);",
+      "after": {
+        "line": 15,
+        "code": "return items.reduce((sum, item) => sum + toMoney(item.price) * item.qty, 0);"
+      }
+    }
+  }
+}

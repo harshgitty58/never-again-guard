@@ -1,0 +1,84 @@
+{
+  "incident": "INC-103",
+  "title": "₹NaN checkout — null price from inventory API",
+  "verdict": "GUARDED",
+  "proof": {
+    "bug": {
+      "exit": 1,
+      "failedOn": "assertion",
+      "ms": 1042,
+      "excerpt": "expected [Function] to throw an error"
+    },
+    "fix": {
+      "exit": 0,
+      "ms": 1014
+    }
+  },
+  "rule": {
+    "engine": "semgrep",
+    "seedMatchedOnBug": true,
+    "seedCleanOnFix": true,
+    "variants": [],
+    "engineError": null
+  },
+  "actionItems": [
+    {
+      "id": "AI-1",
+      "text": "Add a regression test for lineTotal that asserts PriceUnavailableError is thrown for null price",
+      "type": "test",
+      "status": "guarded",
+      "evidence": [
+        "guards/INC-103/regression.test.js"
+      ]
+    },
+    {
+      "id": "AI-2",
+      "text": "Write a Semgrep rule flagging direct arithmetic on $X.price outside util/money.js",
+      "type": "rule",
+      "status": "guarded",
+      "evidence": [
+        "guards/INC-103/rule.yml"
+      ]
+    },
+    {
+      "id": "AI-3",
+      "text": "Fix cartTotal.js and invoice.js to use toMoney(item.price) before arithmetic",
+      "type": "code",
+      "status": "guarded",
+      "evidence": [
+        "shoplite/src/pricing/cartTotal.js",
+        "shoplite/src/invoice.js"
+      ]
+    },
+    {
+      "id": "AI-4",
+      "text": "Add minimum-order-value guard at the checkout API layer (reject orders with total <= 0)",
+      "type": "code",
+      "status": "guarded",
+      "evidence": [
+        "shoplite/src/checkout.js"
+      ]
+    },
+    {
+      "id": "AI-5",
+      "text": "Add inventory API response validation (zod/JSON schema) at the boundary",
+      "type": "process",
+      "status": "process-only",
+      "evidence": []
+    }
+  ],
+  "anticheat": {
+    "passed": true,
+    "checks": [
+      "has-expect",
+      "no-skip",
+      "no-self-mock",
+      "no-guards-import"
+    ],
+    "violations": []
+  },
+  "timings": {
+    "totalMs": 12042
+  },
+  "generatedAt": "2026-09-27T07:01:46.084Z"
+}

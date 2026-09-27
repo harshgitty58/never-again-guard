@@ -1,0 +1,92 @@
+{
+  "incident": "INC-102",
+  "title": "Retry storm took down the payment gateway",
+  "verdict": "PARTIAL",
+  "proof": {
+    "bug": {
+      "exit": 1,
+      "failedOn": "assertion",
+      "ms": 1603,
+      "excerpt": "expected 10 to be less than or equal to 4"
+    },
+    "fix": {
+      "exit": 0,
+      "ms": 3360
+    }
+  },
+  "rule": {
+    "engine": "semgrep",
+    "seedMatchedOnBug": true,
+    "seedCleanOnFix": true,
+    "variants": [
+      {
+        "file": "shoplite/src/clients/inventory.js",
+        "line": 13,
+        "snippet": "INC-102: withRetry(() => apiFn({ skuId })) called without options (maxAttempts, ",
+        "status": "open"
+      },
+      {
+        "file": "shoplite/src/clients/sms.js",
+        "line": 13,
+        "snippet": "INC-102: withRetry(() => smsFn(message)) called without options (maxAttempts, ba",
+        "status": "open"
+      }
+    ],
+    "engineError": null
+  },
+  "actionItems": [
+    {
+      "id": "AI-1",
+      "text": "Add a regression test that asserts call count <= 4 and that the client fails properly on always-failing gateway",
+      "type": "test",
+      "status": "guarded",
+      "evidence": [
+        "guards/INC-102/regression.test.js"
+      ]
+    },
+    {
+      "id": "AI-2",
+      "text": "Write a Semgrep rule flagging withRetry($F) with exactly one argument",
+      "type": "rule",
+      "status": "guarded",
+      "evidence": [
+        "guards/INC-102/rule.yml"
+      ]
+    },
+    {
+      "id": "AI-3",
+      "text": "Fix inventory.js and sms.js to pass bounded retry options",
+      "type": "code",
+      "status": "unguarded",
+      "evidence": []
+    },
+    {
+      "id": "AI-4",
+      "text": "Change withRetry default maxAttempts from Infinity to 3 with a warning",
+      "type": "code",
+      "status": "unguarded",
+      "evidence": []
+    },
+    {
+      "id": "AI-5",
+      "text": "Document always-supply-retry-options rule in CONTRIBUTING.md",
+      "type": "process",
+      "status": "process-only",
+      "evidence": []
+    }
+  ],
+  "anticheat": {
+    "passed": true,
+    "checks": [
+      "has-expect",
+      "no-skip",
+      "no-self-mock",
+      "no-guards-import"
+    ],
+    "violations": []
+  },
+  "timings": {
+    "totalMs": 17977
+  },
+  "generatedAt": "2026-09-27T06:49:40.513Z"
+}

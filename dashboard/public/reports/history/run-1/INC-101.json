@@ -1,0 +1,98 @@
+{
+  "incident": "INC-101",
+  "title": "Midnight orders promised the wrong delivery date",
+  "verdict": "PARTIAL",
+  "proof": {
+    "bug": {
+      "exit": 1,
+      "failedOn": "assertion",
+      "ms": 1544,
+      "excerpt": "expected '2026-09-27' to be '2026-09-28' // Object.is equality"
+    },
+    "fix": {
+      "exit": 0,
+      "ms": 1508
+    }
+  },
+  "rule": {
+    "engine": "semgrep",
+    "seedMatchedOnBug": true,
+    "seedCleanOnFix": true,
+    "variants": [
+      {
+        "file": "shoplite/src/loyalty.js",
+        "line": 17,
+        "snippet": "INC-101: Raw Date method now.METHOD() used outside util/time.js. The production ",
+        "status": "open"
+      },
+      {
+        "file": "shoplite/src/loyalty.js",
+        "line": 18,
+        "snippet": "INC-101: Raw Date method now.METHOD() used outside util/time.js. The production ",
+        "status": "open"
+      },
+      {
+        "file": "shoplite/src/reports/daily.js",
+        "line": 18,
+        "snippet": "INC-101: Raw Date method order.placedAt.METHOD() used outside util/time.js. The ",
+        "status": "open"
+      }
+    ],
+    "engineError": null
+  },
+  "actionItems": [
+    {
+      "id": "AI-1",
+      "text": "Add a regression test for promisedDeliveryDate that fails on the buggy commit and passes on the fix",
+      "type": "test",
+      "status": "guarded",
+      "evidence": [
+        "guards/INC-101/regression.test.js"
+      ]
+    },
+    {
+      "id": "AI-2",
+      "text": "Write and enforce a Semgrep rule flagging raw Date methods outside util/time.js",
+      "type": "rule",
+      "status": "guarded",
+      "evidence": [
+        "guards/INC-101/rule.yml"
+      ]
+    },
+    {
+      "id": "AI-3",
+      "text": "Fix loyalty.js and reports/daily.js to use util/time.js helpers",
+      "type": "code",
+      "status": "unguarded",
+      "evidence": []
+    },
+    {
+      "id": "AI-4",
+      "text": "Update on-call runbook: add TZ check as first step for date/time anomaly alerts",
+      "type": "process",
+      "status": "process-only",
+      "evidence": []
+    },
+    {
+      "id": "AI-5",
+      "text": "Run regression test and rule scan in CI on every PR touching src/",
+      "type": "process",
+      "status": "process-only",
+      "evidence": []
+    }
+  ],
+  "anticheat": {
+    "passed": true,
+    "checks": [
+      "has-expect",
+      "no-skip",
+      "no-self-mock",
+      "no-guards-import"
+    ],
+    "violations": []
+  },
+  "timings": {
+    "totalMs": 18250
+  },
+  "generatedAt": "2026-09-27T06:49:21.926Z"
+}
