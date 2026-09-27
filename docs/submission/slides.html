@@ -27,6 +27,7 @@
   .slide:nth-of-type(6) { background-position: -400px 0; }
   .slide:nth-of-type(7) { background-position: -1300px -1000px; }
   .slide:nth-of-type(8) { background-position: 0 -420px; }
+  .slide:nth-of-type(9) { background-position: -1100px -40px; }
   h1, h2, h3 { font-family: 'Geist', sans-serif; margin: 0; letter-spacing: -0.04em; }
   h2 { font-size: 44px; font-weight: 600; line-height: 1.1; margin-bottom: 36px; max-width: 1000px; }
   h3 { font-size: 22px; font-weight: 600; margin-bottom: 8px; }
@@ -45,9 +46,6 @@
   .shot figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 14px 20px; font: 500 16px 'Geist Mono', monospace; background: linear-gradient(transparent, #07090dee 40%); }
   .tag { display: inline-block; font: 500 13px 'Geist Mono', monospace; color: var(--accent); background: rgba(69,137,255,.12); border-radius: 6px; padding: 3px 9px; margin-top: 12px; }
   .tag.g { color: var(--green); background: rgba(43,217,159,.12); }
-
-  .poster-slide { padding: 0; }
-  .poster-slide img { display: block; width: 1280px; height: 720px; }
 
   /* 1 — title */
   .title { padding: 0; }
@@ -88,6 +86,110 @@
   .kpi .v { font: 700 58px/1 'Geist', sans-serif; letter-spacing: -0.03em; margin-bottom: 12px; }
   .kpi .v small { font-size: 26px; color: var(--muted); font-weight: 500; }
   .foot { margin-top: auto; font-size: 15px; color: var(--muted); }
+
+  h2.tight { margin-bottom: 22px; }
+  code { font-family: 'Geist Mono', monospace; font-size: .92em; color: #d8f5ea; }
+
+  /* 2 — evidence strip */
+  .evidence { margin-top: 20px; display: grid; grid-template-columns: 1.6fr 1fr 1fr; gap: 16px; }
+  .evidence blockquote { margin: 0; padding: 18px 22px; border-left: 3px solid var(--green); border-radius: 10px;
+    background: rgba(14,15,17,.84); font-size: 19px; line-height: 1.4; color: #e2e2e6; }
+  .evidence cite, .ev-stat cite { display: block; margin-top: 8px; font: 500 12px 'Geist Mono', monospace; font-style: normal; color: var(--muted); }
+  .ev-stat { padding: 16px 20px; border: 1px solid var(--border); border-radius: 10px; background: rgba(14,15,17,.84); }
+  .ev-stat b { display: block; font: 700 30px/1.1 'Geist', sans-serif; letter-spacing: -0.03em; margin-bottom: 4px; }
+  .ev-stat span { display: block; font-size: 15px; line-height: 1.35; color: #c4c4ca; }
+
+  /* 5 — swimlanes */
+  .lanes { display: flex; flex-direction: column; gap: 10px; }
+  .lane { display: grid; grid-template-columns: 150px 1fr; border: 1px solid var(--border); border-radius: 12px; overflow: visible; background: rgba(14,15,17,.8); }
+  .lane-h { display: flex; flex-direction: column; justify-content: center; padding: 0 16px; border-right: 1px solid var(--border); border-radius: 12px 0 0 12px; }
+  .lane-h b { font-size: 18px; letter-spacing: -0.02em; }
+  .lane-h span { font: 500 11px 'Geist Mono', monospace; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+  .lane.bob .lane-h { background: linear-gradient(90deg, rgba(69,137,255,.16), transparent); } .lane.bob .lane-h b { color: #9cc0ff; }
+  .lane.judge .lane-h { background: linear-gradient(90deg, rgba(43,217,159,.16), transparent); } .lane.judge .lane-h b { color: var(--green); }
+  .lane.out .lane-h { background: linear-gradient(90deg, rgba(255,255,255,.06), transparent); }
+  .lane-body { position: relative; display: flex; align-items: stretch; gap: 8px; padding: 12px 14px; }
+  .node { flex: 1; display: flex; flex-direction: column; gap: 2px; padding: 9px 12px; border: 1px solid var(--border); border-radius: 9px; background: rgba(8,9,10,.6); min-width: 0; }
+  .node.wide { flex: 1.5; }
+  .node i { font: 600 10px 'Geist Mono', monospace; font-style: normal; letter-spacing: .08em; color: var(--muted); }
+  .node b { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; }
+  .node span { font-size: 12.5px; color: #a8a8b0; }
+  .node.sm b { font-size: 14px; }
+  .node b span { font-size: inherit; }
+  .node b .green { color: var(--green); } .node b .amber { color: var(--amber); } .node b .red { color: var(--red); }
+  .arw { align-self: center; color: var(--muted); font-size: 16px; }
+  .loopback { position: absolute; right: 14px; top: -11px; padding: 2px 10px; border-radius: 999px; font: 600 11px 'Geist Mono', monospace;
+    color: #ffd79a; background: #1b1508; border: 1px solid rgba(255,181,71,.45); }
+  .stack-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+  .stack-row span { font: 500 12px 'Geist Mono', monospace; color: #b4b4bc; padding: 4px 10px; border: 1px solid var(--border); border-radius: 6px; background: rgba(14,15,17,.7); }
+
+  /* 6 — story */
+  .story { display: grid; grid-template-columns: 360px 1fr; gap: 22px; }
+  .incident-card { padding: 20px 22px; border-radius: 14px; border: 1px solid rgba(255,77,94,.35);
+    background: linear-gradient(160deg, rgba(60,14,20,.55), rgba(14,15,17,.86)); }
+  .incident-card .sev { font: 600 12px 'Geist Mono', monospace; color: var(--red); letter-spacing: .06em; }
+  .incident-card h3 { margin: 6px 0 12px; font-size: 22px; }
+  .incident-card ul { list-style: none; padding: 0; margin: 0 0 14px; display: grid; gap: 7px; font-size: 16px; color: #d4d4d9; }
+  .incident-card li b { color: #fff; }
+  .incident-card .rc { font-size: 15px; color: #d4d4d9; padding-top: 12px; border-top: 1px dashed var(--border); }
+  .timeline { list-style: none; margin: 0; padding: 0 0 0 26px; position: relative; display: grid; gap: 9px; }
+  .timeline::before { content: ''; position: absolute; left: 7px; top: 8px; bottom: 8px; width: 2px; background: linear-gradient(var(--muted), var(--green)); }
+  .timeline li { position: relative; display: flex; flex-direction: column; padding: 8px 14px; border-radius: 10px; background: rgba(14,15,17,.8); border: 1px solid var(--border); }
+  .timeline b { font-size: 16px; font-weight: 600; }
+  .timeline li > span:last-child { font-size: 13.5px; color: #a8a8b0; }
+  .t-dot { position: absolute; left: -25px; top: 13px; width: 12px; height: 12px; border-radius: 50%; background: #6b6b73; border: 2px solid #08090a; }
+  .t-dot.bad { background: var(--red); } .t-dot.good { background: var(--green); }
+
+  /* 7 — proof matrix + chart */
+  .proof-grid { display: grid; grid-template-columns: 1fr 470px; gap: 20px; align-items: start; }
+  .matrix { width: 100%; border-collapse: separate; border-spacing: 0; background: rgba(14,15,17,.84); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; font-size: 14.5px; }
+  .matrix th { font: 600 10.5px 'Geist Mono', monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); text-align: left; padding: 12px 10px; border-bottom: 1px solid var(--border); }
+  .matrix td { padding: 13px 10px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  .matrix tr:last-child td { border-bottom: 0; }
+  .matrix td:first-child { padding-left: 16px; } .matrix td:first-child b { display: block; font-size: 15px; } .matrix td:first-child span { font-size: 12.5px; color: var(--muted); }
+  .matrix td.ok { color: var(--green); font-weight: 600; } .matrix small { display: block; color: var(--muted); font: 500 11px 'Geist Mono', monospace; }
+  .verdict { font: 700 11px 'Geist Mono', monospace; letter-spacing: .06em; color: #07090b; background: var(--green); padding: 4px 8px; border-radius: 6px; }
+  .chart { margin: 0; padding: 16px 16px 12px; }
+  .chart figcaption { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+  .legend { display: flex; gap: 16px; margin-bottom: 8px; font-size: 12.5px; color: #b4b4bc; }
+  .sw { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+  .red-sw { background: var(--red); } .green-sw { background: var(--green); }
+  .chart .chart-note { font-size: 13.5px; line-height: 1.4; color: var(--muted); margin-top: 4px; }
+
+  /* 8 — impact */
+  .impact { display: grid; grid-template-columns: 600px 1fr; gap: 20px; }
+  .kpi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .kpi-grid .kpi { padding: 14px 18px; }
+  .kpi-grid .kpi .v { font-size: 40px; margin-bottom: 4px; }
+  .kpi-grid .kpi p { font-size: 14px; }
+  .who { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 16px; }
+  .who div { padding: 12px 16px; border-radius: 10px; border: 1px solid var(--border); background: rgba(14,15,17,.8); display: flex; flex-direction: column; }
+  .who b { font-size: 15px; } .who span { font-size: 13.5px; color: #a8a8b0; }
+
+  /* 9 — roadmap */
+  .roadmap { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .phase { border: 1px solid var(--border); border-radius: 14px; padding: 18px 20px; background: rgba(14,15,17,.84); }
+  .phase.done { border-color: rgba(43,217,159,.45); } .phase.later { border-color: rgba(69,137,255,.4); }
+  .ph-h { display: flex; align-items: center; gap: 8px; font: 600 12px 'Geist Mono', monospace; letter-spacing: .08em; text-transform: uppercase; color: #cfcfd4; margin-bottom: 12px; }
+  .ph-h i { width: 10px; height: 10px; border-radius: 50%; background: var(--muted); }
+  .done .ph-h i { background: var(--green); box-shadow: 0 0 0 3px rgba(43,217,159,.2); } .next .ph-h i { background: var(--amber); } .later .ph-h i { background: var(--accent); }
+  .phase ul { margin: 0; padding-left: 18px; display: grid; gap: 11px; font-size: 16px; line-height: 1.4; color: #d0d0d5; }
+  .phase b { color: #fff; }
+  .closing { margin-top: auto; font-size: 22px; font-weight: 600; letter-spacing: -0.02em; }
+  .closing .muted { font: 500 14px 'Geist Mono', monospace; }
+
+  .caught { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 16px; }
+  .caught div { display: flex; flex-direction: column; gap: 8px; padding: 12px 14px; border: 1px solid var(--border); border-radius: 10px; background: rgba(14,15,17,.82); }
+  .c-h { font-size: 13.5px; font-weight: 600; color: #e4e4e8; }
+  .c-f { display: flex; flex-wrap: wrap; gap: 6px; }
+  .c-f code { font-size: 12px; padding: 2px 7px; border-radius: 5px; background: rgba(43,217,159,.1); border: 1px solid rgba(43,217,159,.3); color: #c9f7e6; }
+  .versus { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; }
+  .vs-col { display: flex; gap: 8px 18px; flex-wrap: wrap; align-items: center; padding: 12px 16px; border-radius: 10px; font-size: 14px; }
+  .vs-h { width: 100%; font: 600 11px 'Geist Mono', monospace; letter-spacing: .08em; text-transform: uppercase; }
+  .without { border: 1px solid rgba(255,77,94,.3); background: rgba(40,10,14,.55); color: #e8c3c7; } .without .vs-h { color: var(--red); }
+  .without span:not(.vs-h)::before { content: '✗ '; color: var(--red); }
+  .with { border: 1px solid rgba(43,217,159,.35); background: rgba(8,36,27,.55); color: #c9f0e1; } .with .vs-h { color: var(--green); }
+  .with span:not(.vs-h)::before { content: '✓ '; color: var(--green); }
 </style>
 </head>
 <body>
@@ -106,22 +208,21 @@
   </div>
 </section>
 
-<!-- 1b: at a glance (poster.png, rendered from poster.html) -->
-<section class="slide poster-slide">
-  <img src="poster.png" alt="Never Again at a glance" />
-</section>
-
 <!-- 2 -->
 <section class="slide">
   <div class="kicker">The problem</div>
   <h2>Postmortem action items drift, and the same bug comes back.</h2>
   <div class="grid" style="grid-template-columns: repeat(3, 1fr);">
-    <div class="card"><h3>Items live in a doc</h3><p>"Add a test", "check similar code", "update the runbook". They get tracked as tickets and are rarely closed.</p></div>
+    <div class="card"><h3>Items live in a doc</h3><p>"Add a test", "check similar code", "update the runbook". Tracked as tickets, deprioritized in the next sprint, quietly dropped.</p></div>
     <div class="card"><h3>"We added a test"</h3><p>Nothing proves that test would have failed on the broken code. A test that always passes guards nothing.</p></div>
     <div class="card"><h3>Same mistake, other files</h3><p>The root-cause pattern is almost always copy-pasted elsewhere, and nobody goes looking.</p></div>
   </div>
-  <p class="foot">Incomplete action items make recurrence more likely (Google SRE workbook, postmortem culture).</p>
-  <span class="num">03</span>
+  <div class="evidence">
+    <blockquote>"A merged pull request proves that code changed. It does not prove that the postmortem action controls the failure."<cite>OneUptime, verifying postmortem actions (2026)</cite></blockquote>
+    <div class="ev-stat"><b>far more likely</b><span>recurrence when action items are incomplete</span><cite>Google SRE Workbook</cite></div>
+    <div class="ev-stat"><b class="red">45%</b><span>repeat-incident rate one SRE team measured before enforcing follow-ups</span><cite>Tanimawo, DEV Community</cite></div>
+  </div>
+  <span class="num">02</span>
 </section>
 
 <!-- 3 -->
@@ -145,7 +246,7 @@
     </div>
   </div>
   <p class="foot">Same test, two throwaway git worktrees. A crash or import error on the bug commit doesn't count. Anti-cheat rejects skipped, assertion-free or self-mocking tests.</p>
-  <span class="num">04</span>
+  <span class="num">03</span>
 </section>
 
 <!-- 4 -->
@@ -158,60 +259,213 @@
     <div class="card"><h3>3 · Variant fixes</h3><p>Bob fixes every variant the rule finds. The verifier reruns until none are open.</p></div>
     <div class="card"><h3>4 · Action-item audit</h3><p>Every item is marked guarded / partial / unguarded / process-only, with file evidence. No invented code for runbooks.</p></div>
   </div>
+  <span class="num">04</span>
+</section>
+
+<!-- 5: architecture -->
+<section class="slide">
+  <div class="kicker">Architecture</div>
+  <h2 class="tight">Two lanes, one rule: whatever writes the guard never grades it.</h2>
+  <div class="lanes">
+    <div class="lane bob">
+      <div class="lane-h"><b>IBM Bob</b><span>generates</span></div>
+      <div class="lane-body">
+        <div class="node"><i>INPUT</i><b>postmortem.md</b><span>timeline · 5 whys · action items</span></div>
+        <span class="arw">→</span>
+        <div class="node wide"><i>DOCUMENT UNDERSTANDING</i><b>root cause · seed file:line · bug/fix refs</b><span>guided by the never-again skill + AGENTS.md rules</span></div>
+        <span class="arw">→</span>
+        <div class="node"><i>guards/INC-xxx/</i><b>test · rule · manifest</b><span>regression.test.js · rule.yml · guard.json</span></div>
+      </div>
+    </div>
+    <div class="lane judge">
+      <div class="lane-h"><b>Verifier</b><span>judges, no AI</span></div>
+      <div class="lane-body">
+        <div class="node sm"><i>01</i><b>Anti-cheat</b><span>real asserts, no skips or self-mocks</span></div>
+        <span class="arw">→</span>
+        <div class="node sm"><i>02 · worktree @bug</i><b class="red">test must FAIL</b><span>on an assertion</span></div>
+        <span class="arw">→</span>
+        <div class="node sm"><i>03 · worktree @fix</i><b class="green">test must PASS</b><span>same test file</span></div>
+        <span class="arw">→</span>
+        <div class="node sm"><i>04 · Semgrep</i><b>seed hit @bug, clean @fix</b><span>rule sanity</span></div>
+        <span class="arw">→</span>
+        <div class="node sm"><i>05 · scan HEAD</i><b>variant hunt</b><span>every look-alike</span></div>
+      </div>
+    </div>
+    <div class="lane out">
+      <div class="lane-h"><b>Evidence</b><span>outputs</span></div>
+      <div class="lane-body">
+        <div class="node"><i>reports/</i><b>INC-xxx.json · summary</b><span>never hand-edited</span></div>
+        <span class="arw">→</span>
+        <div class="node"><i>VERDICT</i><b><span class="green">GUARDED</span> · <span class="amber">PARTIAL</span> · <span class="red">FAILED</span></b><span>exit 0 only if all guarded</span></div>
+        <span class="arw">→</span>
+        <div class="node"><i>3D DASHBOARD</i><b>static site on Vercel</b><span>reads reports JSON only</span></div>
+        <div class="loopback">↺ variants open → Bob fixes them → verifier reruns</div>
+      </div>
+    </div>
+  </div>
+  <div class="stack-row">
+    <span>Node 20 · ESM · zero prod deps</span><span>Vitest JSON reporter</span><span>Semgrep</span><span>git worktrees</span><span>React · three.js · Vercel</span>
+  </div>
   <span class="num">05</span>
 </section>
 
-<!-- 5 -->
+<!-- 6: story -->
 <section class="slide">
-  <div class="kicker">Architecture · IBM Bob 2.0 features</div>
-  <h2>Bob does the generating. The judging is deliberately not AI.</h2>
-  <div class="flow">
-    <div class="card"><span class="n">01</span><h3>Postmortem</h3><p>Markdown: root cause, trigger, seed, action items.</p><span class="tag">Document understanding</span></div>
-    <div class="card"><span class="n">02</span><h3>Bob reads</h3><p>Guided by the never-again skill, pulls out the root cause, seed location and refs.</p><span class="tag">Agent mode · Skill</span></div>
-    <div class="card"><span class="n">03</span><h3>Guard generated</h3><p>test + rule + guard.json per incident.</p><span class="tag">Agent mode</span></div>
-    <div class="card judge"><span class="n">04</span><h3>Verifier proves</h3><p>Worktrees at both commits, anti-cheat, rule sanity checks, variant hunt.</p><span class="tag g">No AI</span></div>
-    <div class="card"><span class="n">05</span><h3>Variants fixed</h3><p>Bob fixes them, then the verifier reruns until exit 0.</p><span class="tag">Agent mode</span></div>
+  <div class="kicker">One incident, end to end · INC-102 (demo postmortem)</div>
+  <h2 class="tight">A 4-minute gateway blip became a 47-minute outage. <span class="muted">Here's how it never happens again.</span></h2>
+  <div class="story">
+    <div class="incident-card">
+      <span class="sev">SEV-1 · 14 Sep · 47 min</span>
+      <h3>Retry storm took down payments</h3>
+      <ul>
+        <li><b>~48,000</b> req/min from zero-delay retries</li>
+        <li>API key blacklisted for <b>43 min</b></li>
+        <li><b>1,847</b> failed checkouts</li>
+        <li><b>₹28.4 lakh</b> estimated lost GMV</li>
+      </ul>
+      <p class="rc"><span class="muted">root cause</span><br /><code>withRetry(fn)</code> with no options: infinite attempts, 0 ms backoff</p>
+    </div>
+    <ol class="timeline">
+      <li><span class="t-dot"></span><b>Bob reads the postmortem</b><span>seed <code>payment.js:19</code>, fix ref, 5 action items</span></li>
+      <li><span class="t-dot"></span><b>Bob writes the test</b><span>a fake gateway that fails, then caps itself at 10 calls; assert calls ≤ 4</span></li>
+      <li><span class="t-dot bad"></span><b>@ inc-102-bug: <span class="red">✗ fails on assertion</span></b><span><code>expected 10 ≤ 4</code> in 1.1 s: it catches the real bug</span></li>
+      <li><span class="t-dot good"></span><b>@ inc-102-fix: <span class="green">✓ passes</span></b><span>bounded retries with backoff, 3.2 s</span></li>
+      <li><span class="t-dot bad"></span><b>Rule <code>withRetry($F)</code> finds <span class="red">2 more</span></b><span><code>clients/inventory.js:13</code> · <code>clients/sms.js:13</code>, the same outage waiting to happen</span></li>
+      <li><span class="t-dot good"></span><b>Bob fixes both, verifier reruns: <span class="green">GUARDED</span></b><span>0 open variants · 4 of 4 code action items with evidence</span></li>
+    </ol>
   </div>
-  <p class="loop">Output: <span class="mono">reports/INC-xxx.json</span> → static 3D dashboard on Vercel. Guardrails live in the project rules (AGENTS.md): never edit app source while guarding, and always quote the verifier's real verdict.</p>
   <span class="num">06</span>
 </section>
 
-<!-- 6 -->
+<!-- 7: proof across incidents -->
 <section class="slide">
-  <div class="kicker">Proof on the demo app</div>
-  <h2 style="margin-bottom: 24px;">Run 1 found <span class="red">7 hidden variants</span>. Run 2: <span class="green">0 open</span>.</h2>
-  <div class="grid" style="grid-template-columns: 1fr 1fr; flex: 1; min-height: 0;">
-    <figure class="shot"><img src="img/scene-before.png" alt="Run 1: 3 incidents PARTIAL, 7 open variants" /><figcaption><span class="amber">run 1</span> · 3 PARTIAL · <span class="red">7 open variants</span></figcaption></figure>
-    <figure class="shot"><img src="img/scene-after.png" alt="Run 2: all guarded" /><figcaption><span class="green">run 2</span> · 3 GUARDED · 0 open · verifier exit 0</figcaption></figure>
+  <div class="kicker">Proof · from reports/*.json</div>
+  <h2 class="tight">All three incidents proven both ways. 7&nbsp;look&#8209;alike bugs closed.</h2>
+  <div class="proof-grid">
+    <table class="matrix">
+      <thead><tr><th></th><th>Anti&#8209;cheat</th><th>Test&nbsp;@bug</th><th>Test&nbsp;@fix</th><th>Rule&nbsp;@bug</th><th>Rule&nbsp;@fix</th><th>Verdict</th></tr></thead>
+      <tbody>
+        <tr><td><b>INC-101</b><span>time zone</span></td><td class="ok">✓</td><td class="ok">✗ fails <small>0.9 s</small></td><td class="ok">✓ passes <small>1.3 s</small></td><td class="ok">✓ hit</td><td class="ok">✓ clean</td><td><span class="verdict">GUARDED</span></td></tr>
+        <tr><td><b>INC-102</b><span>retry storm</span></td><td class="ok">✓</td><td class="ok">✗ fails <small>1.1 s</small></td><td class="ok">✓ passes <small>3.2 s</small></td><td class="ok">✓ hit</td><td class="ok">✓ clean</td><td><span class="verdict">GUARDED</span></td></tr>
+        <tr><td><b>INC-103</b><span>₹NaN&nbsp;checkout</span></td><td class="ok">✓</td><td class="ok">✗ fails <small>1.0 s</small></td><td class="ok">✓ passes <small>1.0 s</small></td><td class="ok">✓ hit</td><td class="ok">✓ clean</td><td><span class="verdict">GUARDED</span></td></tr>
+      </tbody>
+    </table>
+    <figure class="chart card">
+      <figcaption>Open variants per incident</figcaption>
+      <div class="legend"><span><i class="sw red-sw"></i>Run 1 · before fixes</span><span><i class="sw green-sw"></i>Run 2 · after fixes</span></div>
+      <svg viewBox="0 0 440 200" width="440" height="200" role="img" aria-label="Open variants: INC-101 3 to 0, INC-102 2 to 0, INC-103 2 to 0">
+        <g font-family="Geist Mono, monospace" font-size="12" fill="#a8a8b0">
+          <line x1="96" y1="8" x2="96" y2="192" stroke="rgba(255,255,255,.18)" />
+          <!-- scale: 1 variant = 72px -->
+          <text x="0" y="40">INC-101</text>
+          <rect x="97" y="22" width="216" height="16" rx="4" fill="#FF4D5E" />
+          <text x="321" y="35" fill="#ededef">✗ 3 open</text>
+          <circle cx="101" cy="52" r="5" fill="#2BD99F" stroke="#0e0f11" stroke-width="2" />
+          <text x="114" y="56" fill="#ededef">✓ 0 open</text>
+
+          <text x="0" y="104">INC-102</text>
+          <rect x="97" y="86" width="144" height="16" rx="4" fill="#FF4D5E" />
+          <text x="249" y="99" fill="#ededef">✗ 2 open</text>
+          <circle cx="101" cy="116" r="5" fill="#2BD99F" stroke="#0e0f11" stroke-width="2" />
+          <text x="114" y="120" fill="#ededef">✓ 0 open</text>
+
+          <text x="0" y="168">INC-103</text>
+          <rect x="97" y="150" width="144" height="16" rx="4" fill="#FF4D5E" />
+          <text x="249" y="163" fill="#ededef">✗ 2 open</text>
+          <circle cx="101" cy="180" r="5" fill="#2BD99F" stroke="#0e0f11" stroke-width="2" />
+          <text x="114" y="184" fill="#ededef">✓ 0 open</text>
+        </g>
+      </svg>
+    </figure>
+  </div>
+  <div class="caught">
+    <div><span class="c-h">INC-101 rule · raw Date getters (UTC, not IST)</span><span class="c-f"><code>loyalty.js:17</code> <code>loyalty.js:18</code> <code>reports/daily.js:18</code></span></div>
+    <div><span class="c-h">INC-102 rule · <code>withRetry($F)</code> without options</span><span class="c-f"><code>clients/inventory.js:13</code> <code>clients/sms.js:13</code></span></div>
+    <div><span class="c-h">INC-103 rule · arithmetic on raw <code>.price</code></span><span class="c-f"><code>invoice.js:16</code> <code>pricing/cartTotal.js:14</code></span></div>
   </div>
   <span class="num">07</span>
 </section>
 
-<!-- 7 -->
+<!-- 8: impact -->
 <section class="slide">
-  <div class="kicker">Impact · all numbers from verifier reports</div>
-  <h2>Evidence instead of claims.</h2>
-  <div class="grid kpis">
-    <div class="card kpi"><div class="v green">3<small>/3</small></div><p>incidents GUARDED: time zone, retry storm, ₹NaN checkout</p></div>
-    <div class="card kpi"><div class="v">7<small> → 0</small></div><p>hidden variants found by the rules, then fixed and proven closed</p></div>
-    <div class="card kpi"><div class="v">11<small>/11</small></div><p>code action items with file evidence (6/11 before); 4 honestly process-only</p></div>
-    <div class="card kpi"><div class="v">&lt;1<small> min</small></div><p>full verification of all incidents, also on a fresh clone</p></div>
+  <div class="kicker">Impact</div>
+  <h2 class="tight">Follow-ups go from "we think it's done" to evidence.</h2>
+  <div class="impact">
+    <figure class="chart card">
+      <figcaption>Postmortem action items, before and after (15 items across 3 incidents)</figcaption>
+      <svg viewBox="0 0 560 150" width="560" height="150" role="img" aria-label="Run 1: 6 guarded, 5 unguarded, 4 process-only. Run 2: 11 guarded, 0 unguarded, 4 process-only.">
+        <g font-family="Geist, sans-serif" font-size="13" font-weight="600">
+          <!-- scale: 1 item = 32px; 2px surface gaps between segments -->
+          <text x="0" y="36" fill="#a8a8b0" font-family="Geist Mono, monospace" font-size="12">Run 1</text>
+          <rect x="60" y="16" width="190" height="32" rx="4" fill="#2BD99F" />
+          <text x="72" y="37" fill="#07090b">✓ 6 guarded</text>
+          <rect x="252" y="16" width="158" height="32" rx="4" fill="#FF4D5E" />
+          <text x="264" y="37" fill="#1a0306">✗ 5 unguarded</text>
+          <rect x="412" y="16" width="126" height="32" rx="4" fill="#6B6B73" />
+          <text x="424" y="37" fill="#f4f4f5">4 process-only</text>
+
+          <text x="0" y="106" fill="#a8a8b0" font-family="Geist Mono, monospace" font-size="12">Run 2</text>
+          <rect x="60" y="86" width="350" height="32" rx="4" fill="#2BD99F" />
+          <text x="72" y="107" fill="#07090b">✓ 11 guarded · 0 unguarded</text>
+          <rect x="412" y="86" width="126" height="32" rx="4" fill="#6B6B73" />
+          <text x="424" y="107" fill="#f4f4f5">4 process-only</text>
+        </g>
+      </svg>
+      <p class="chart-note">Process-only items (runbooks, on-call, CI policy) are labeled honestly, never given invented code evidence.</p>
+    </figure>
+    <div class="kpi-grid">
+      <div class="card kpi"><div class="v green">3<small>/3</small></div><p>incidents guarded</p></div>
+      <div class="card kpi"><div class="v">7<small> → 0</small></div><p>hidden variants closed</p></div>
+      <div class="card kpi"><div class="v">&lt;1<small> min</small></div><p>to re-prove everything</p></div>
+      <div class="card kpi"><div class="v">1<small> task</small></div><p>IBM Bob, 39.26 Bobcoins</p></div>
+    </div>
   </div>
-  <p class="foot">One IBM Bob task (39.26 Bobcoins) built the app, the postmortems, the verifier and all three guards, then fixed every variant.</p>
+  <div class="versus">
+    <div class="vs-col without"><span class="vs-h">Without Never Again</span><span>"Added a test" · never run against the bug</span><span>Look-alike files unchecked</span><span>Runbook item marked "done"</span></div>
+    <div class="vs-col with"><span class="vs-h">With Never Again</span><span>Test proven: fails on the bug, passes on the fix</span><span>7 look-alikes found and closed</span><span>Process-only items labeled as process-only</span></div>
+  </div>
+  <div class="who">
+    <div><b>On-call / SRE</b><span>know the fix is real before closing the incident</span></div>
+    <div><b>Engineering managers</b><span>audit follow-ups by evidence, not ticket status</span></div>
+    <div><b>Platform teams</b><span>turn every incident into a reusable rule</span></div>
+  </div>
   <span class="num">08</span>
 </section>
 
-<!-- 8 -->
+<!-- 9: roadmap -->
 <section class="slide">
   <div class="kicker">What's next</div>
-  <h2>From a hackathon demo to part of every incident's follow-up.</h2>
-  <div class="grid" style="grid-template-columns: 1fr 1fr;">
-    <div class="card"><h3>GitHub Action</h3><p>Run the guard on every merged postmortem PR, and block merges that reintroduce a guarded pattern.</p></div>
-    <div class="card"><h3>Import from incident tools</h3><p>Pull postmortems and action items from incident.io and Jira instead of markdown only.</p></div>
-    <div class="card"><h3>Follow-up automation</h3><p>Schedule process-only action items (runbooks, on-call changes) with watsonx Orchestrate.</p></div>
-    <div class="card"><h3>More languages</h3><p>Rule packs beyond JavaScript: Python, Java and Go via Semgrep.</p></div>
+  <h2 class="tight">From a hackathon demo to a gate every incident passes through.</h2>
+  <div class="roadmap">
+    <div class="phase done">
+      <span class="ph-h"><i></i>Now · shipped</span>
+      <ul>
+        <li>Verifier CLI with anti-cheat and worktree proofs</li>
+        <li>3 incidents GUARDED, 7 variants closed</li>
+        <li><code>never-again</code> skill for IBM Bob</li>
+        <li>3D dashboard on Vercel</li>
+      </ul>
+    </div>
+    <div class="phase next">
+      <span class="ph-h"><i></i>Next · 30 days</span>
+      <ul>
+        <li><b>GitHub Action</b>: guard every merged postmortem PR</li>
+        <li><b>CI gate</b>: incident rules block PRs that reintroduce the pattern</li>
+        <li><b>Guard-decay check</b>: nightly re-proof that the test still fails on the bug</li>
+        <li>Import from <b>incident.io, Jira, PagerDuty</b></li>
+      </ul>
+    </div>
+    <div class="phase later">
+      <span class="ph-h"><i></i>Later · with IBM</span>
+      <ul>
+        <li><b>watsonx.ai</b> (Granite) extracts postmortem fields for teams without Bob in the IDE</li>
+        <li><b>watsonx Orchestrate</b> chases process-only items: owners, due dates, reminders</li>
+        <li><b>Fault-injection drills</b> to prove runtime controls, not just code</li>
+        <li>Org metric: <b>repeat-incident rate</b>, trending to zero</li>
+      </ul>
+    </div>
   </div>
-  <p class="foot">github.com/harshgitty58/never-again-guard · Built with IBM Bob 2.0 · MIT</p>
+  <p class="closing">Every postmortem, proven. <span class="green">Never again.</span> <span class="muted">· github.com/harshgitty58/never-again-guard</span></p>
   <span class="num">09</span>
 </section>
 
