@@ -8,7 +8,7 @@ Never Again turns an incident postmortem into a *proven* regression guard: a tes
 
 **Bob generates. A deterministic verifier judges.** The AI never grades its own homework.
 
-- **Live dashboard:** _<Vercel URL — add after deploy>_
+- **Live dashboard:** https://never-again-guard.vercel.app
 - **Code:** https://github.com/harshgitty58/never-again-guard
 
 ---

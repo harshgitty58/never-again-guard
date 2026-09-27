@@ -55,3 +55,12 @@ Developer Tools, DevOps / SRE, Testing (pick the closest options offered)
 
 === TECHNOLOGIES USED ===
 Vercel, Anthropic Claude (add IBM / IBM Bob if typing "IBM" in the dropdown finds it)
+
+=== APPLICATION URL (step 3) ===
+https://never-again-guard.vercel.app
+
+=== DEMO PLATFORM ===
+Web (Vercel)
+
+=== CODE REPOSITORY ===
+https://github.com/harshgitty58/never-again-guard

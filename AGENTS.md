@@ -200,6 +200,6 @@ Exit code 0 only if **all** incidents are `GUARDED`.
 - [x] P0: Scaffold committed — LICENSE, .bobignore, package.json, bob_sessions/, empty folders
 - [x] P1: shoplite app + git tags + postmortems
 - [x] P2: Guard engine + skill + reports — all 3 GUARDED, 7 → 0 variants (custom mode lives in Bob settings)
-- [ ] P3: Dashboard built (`dashboard/`) — Vercel deploy pending
+- [x] P3: Dashboard live at https://never-again-guard.vercel.app
 - [ ] P4: README, statements, slides.pdf, cover done — `[TODO]`s in docs/submission/, video, bob_sessions screenshots pending
 - [ ] P5: Submitted
