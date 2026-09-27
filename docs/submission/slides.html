@@ -139,12 +139,12 @@
   <h2>Bob does the generating. The judging is deliberately not AI.</h2>
   <div class="flow">
     <div class="card"><span class="n">01</span><h3>Postmortem</h3><p>Markdown: root cause, trigger, seed, action items.</p><span class="tag">Document understanding</span></div>
-    <div class="card"><span class="n">02</span><h3>Bob reads</h3><p>Pulls out refs and the seed location, and plans before writing anything.</p><span class="tag">Custom mode · Plan</span></div>
-    <div class="card"><span class="n">03</span><h3>Guard generated</h3><p>test + rule + guard.json per incident.</p><span class="tag">Subagents · Skill</span></div>
+    <div class="card"><span class="n">02</span><h3>Bob reads</h3><p>Guided by the never-again skill, pulls out the root cause, seed location and refs.</p><span class="tag">Agent mode · Skill</span></div>
+    <div class="card"><span class="n">03</span><h3>Guard generated</h3><p>test + rule + guard.json per incident.</p><span class="tag">Agent mode</span></div>
     <div class="card judge"><span class="n">04</span><h3>Verifier proves</h3><p>Worktrees at both commits, anti-cheat, rule sanity checks, variant hunt.</p><span class="tag g">No AI</span></div>
     <div class="card"><span class="n">05</span><h3>Variants fixed</h3><p>Bob fixes them, then the verifier reruns until exit 0.</p><span class="tag">Agent mode</span></div>
   </div>
-  <p class="loop">Output: <span class="mono">reports/INC-xxx.json</span> → static 3D dashboard on Vercel. Guardrails live in the mode: never edit app source while guarding, and always quote the verifier's real verdict.</p>
+  <p class="loop">Output: <span class="mono">reports/INC-xxx.json</span> → static 3D dashboard on Vercel. Guardrails live in the project rules (AGENTS.md): never edit app source while guarding, and always quote the verifier's real verdict.</p>
   <span class="num">05</span>
 </section>
 

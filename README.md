@@ -50,8 +50,8 @@ The demo app `shoplite/` is a small Express shop with three incidents modeled on
 
 ```mermaid
 flowchart LR
-    PM["Postmortem<br/>postmortems/*.md"] --> BOB["IBM Bob 2.0<br/>Postmortem Guard mode<br/>+ never-again skill"]
-    BOB -->|one subagent per incident| G["guards/INC-xxx/<br/>guard.json · regression.test.js · rule.yml"]
+    PM["Postmortem<br/>postmortems/*.md"] --> BOB["IBM Bob 2.0 (Agent mode)<br/>never-again skill<br/>+ AGENTS.md rules"]
+    BOB -->|per incident| G["guards/INC-xxx/<br/>guard.json · regression.test.js · rule.yml"]
     G --> V{"Verifier<br/>guard/verify.mjs<br/>(no AI)"}
     V -->|worktree @ bug| B["test must FAIL<br/>on an assertion"]
     V -->|worktree @ fix| F["test must PASS"]
@@ -97,13 +97,20 @@ cd dashboard && npm install && npm run dev
 
 | Bob feature | Where |
 |---|---|
-| `/init` | Generated `AGENTS.md` (project context for every later task) |
-| Plan mode → Agent mode | Each phase: shoplite + git tags, postmortems, verifier, guards |
-| Document understanding | Reads `postmortems/*.md` to extract the root cause, trigger, seed and action items |
-| Custom mode "Postmortem Guard" | Encodes the workflow and guardrails (never edit app source while guarding; report the verifier's real verdict) |
-| Skill `never-again` | `.bob/skills/never-again/` with templates for the postmortem and `guard.json` |
-| Parallel subagents | One subagent per incident writes that incident's guard |
-| Agent mode (variant fixes) | Fixed the 7 variants found in run 1, then reran the verifier (run 2) |
+Bob did the core build in one long Agent-mode task, driven by `plan.md` and the project rules in `AGENTS.md`, working through its own 12-step to-do list (39.26 Bobcoins).
+
+| What Bob did | Where |
+|---|---|
+| Built the demo app with real incident history | `shoplite/`, git tags `inc-10x-bug` / `inc-10x-fix` |
+| Wrote the three postmortems | `postmortems/` |
+| Wrote the verifier CLI (worktrees, Vitest/Semgrep runners, anti-cheat, reports) | `guard/` |
+| Read each postmortem (document understanding) and wrote its guard | `guards/INC-xxx/`: `guard.json`, `regression.test.js`, `rule.yml` |
+| Ran the verifier: 3 PARTIAL, 7 open variants | `reports/history/run-1/` |
+| Fixed all 7 variants and reran: 3 GUARDED, 0 open | `shoplite/src/`, `reports/history/run-2/` |
+| Created the reusable skill | `.bob/skills/never-again/SKILL.md` |
+| Debugged Semgrep launching on Windows | `guard/lib/run-rule.mjs` |
+
+Guardrails Bob worked under (`AGENTS.md`): never edit app source while writing a guard, quote the verifier's real verdict, fix the guard rather than the app, and classify process-only action items honestly.
 
 Task session screenshots are in [`bob_sessions/`](bob_sessions/).
 

@@ -271,10 +271,10 @@ export function ActionAudit({ data }: { data: Dataset }) {
 
 const STEPS = [
   { n: '01', title: 'Postmortem', body: 'A normal incident write-up: root cause, trigger, seed file, action items.', bob: 'Document understanding' },
-  { n: '02', title: 'Bob reads', body: 'The Postmortem Guard mode pulls out the root cause and bug/fix refs, and plans before writing anything.', bob: 'Custom mode · Plan mode' },
-  { n: '03', title: 'Guard generated', body: 'For each incident: a regression test, a Semgrep rule and guard.json. One subagent per incident, in parallel.', bob: 'Parallel subagents · Skill' },
+  { n: '02', title: 'Bob reads', body: 'Guided by the never-again skill and project rules, Bob pulls out the root cause, seed location and bug/fix refs.', bob: 'Agent mode · Skill' },
+  { n: '03', title: 'Guard generated', body: 'For each incident, Bob writes a regression test, a Semgrep rule and a guard.json manifest.', bob: 'Agent mode' },
   { n: '04', title: 'Verifier proves', body: 'Deterministic, no AI: worktrees at both commits, anti-cheat, rule sanity checks, variant hunt.', bob: 'The judge' },
-  { n: '05', title: 'Variants fixed', body: 'Bob fixes every variant the rules found, then the verifier reruns until nothing is open.', bob: 'Agent mode · /review' },
+  { n: '05', title: 'Variants fixed', body: 'Bob fixes every variant the rules found, then the verifier reruns until nothing is open.', bob: 'Agent mode' },
 ];
 
 export function HowItWorks() {
