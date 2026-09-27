@@ -140,12 +140,17 @@ export default function Hero({ data }: { data: Dataset }) {
           <a href="#variants">Variants</a>
           <a href="#audit">Audit</a>
           <a href="#how">How it works</a>
-          <a className="gh" href="https://github.com/harshgitty58/never-again-guard" target="_blank" rel="noreferrer">GitHub ↗</a>
+          <a className="gh" href="https://github.com/harshgitty58/never-again-guard" target="_blank" rel="noreferrer">GitHub</a>
         </span>
       </nav>
 
       <div className="hero-copy">
-        <p className="eyebrow">Postmortem → Regression Guard · built with IBM Bob 2.0</p>
+        <p className="hero-badge">
+          <span className="hero-badge-dot" aria-hidden />
+          Postmortem → Regression Guard
+          <span className="hero-badge-sep" aria-hidden />
+          <span className="muted">Built with IBM Bob 2.0</span>
+        </p>
         <h1>Every postmortem becomes a guard your code can't forget.</h1>
         <p className="lede">
           Bob reads the postmortem and generates a regression test, a variant rule and an action-item audit.
@@ -173,7 +178,7 @@ export default function Hero({ data }: { data: Dataset }) {
 
         <div className="hero-actions">
           <button className="btn btn-primary" onClick={replay} disabled={playing}>
-            {playing ? 'Verifying…' : '↻ Replay verification'}
+            {playing ? 'Verifying…' : 'Replay verification'}
           </button>
           <span className="replay-status mono" aria-live="polite">
             {step === 0 && 'run-1 · rules found variants'}

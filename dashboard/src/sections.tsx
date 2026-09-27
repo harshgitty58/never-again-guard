@@ -1,12 +1,25 @@
 import { useState } from 'react';
 import { blob, fmtMs, REPO, type Dataset, type Incident, type ItemStatus, type Verdict } from './data';
 
+const cap = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
+
 function VerdictChip({ verdict }: { verdict: Verdict }) {
-  return <span className={`chip chip-${verdict.toLowerCase()}`}>{verdict}</span>;
+  const v = verdict.toLowerCase();
+  return (
+    <span className={`status status-lg s-${v}`}>
+      <i aria-hidden />
+      {cap(v)}
+    </span>
+  );
 }
 
 function StatusChip({ status }: { status: ItemStatus | 'open' | 'fixed' }) {
-  return <span className={`chip chip-${status}`}>{status}</span>;
+  return (
+    <span className={`status s-${status}`}>
+      <i aria-hidden />
+      {cap(status)}
+    </span>
+  );
 }
 
 function Check({ ok, children }: { ok: boolean | undefined; children: React.ReactNode }) {
@@ -17,11 +30,13 @@ function Check({ ok, children }: { ok: boolean | undefined; children: React.Reac
   );
 }
 
-function SectionHead({ kicker, title, children }: { kicker: string; title: string; children?: React.ReactNode }) {
+function SectionHead({ index, kicker, title, children }: { index: string; kicker: string; title: string; children?: React.ReactNode }) {
   return (
     <div className="section-head">
-      <p className="eyebrow">{kicker}</p>
-      <h2>{title}</h2>
+      <div>
+        <p className="eyebrow"><span className="eyebrow-n">{index}</span>{kicker}</p>
+        <h2>{title}</h2>
+      </div>
       {children && <p className="section-sub">{children}</p>}
     </div>
   );
@@ -32,7 +47,7 @@ function SectionHead({ kicker, title, children }: { kicker: string; title: strin
 export function ProofSection({ data }: { data: Dataset }) {
   return (
     <section id="proof" className="section">
-      <SectionHead kicker="Don't trust — verify" title="Proof, per incident">
+      <SectionHead index="01" kicker="Proof" title="Proof, per incident">
         The verifier checks out the bug commit and the fix commit in throwaway git worktrees and runs the
         same regression test in both. A guard only counts if it fails on an assertion at the bug and passes at the fix.
       </SectionHead>
@@ -121,12 +136,12 @@ export function VariantMap({ data }: { data: Dataset }) {
 
   return (
     <section id="variants" className="section">
-      <SectionHead kicker="Same mistake, other files" title="Variant map">
+      <SectionHead index="02" kicker="Variants" title="Variant map">
         Each incident's root cause is turned into a Semgrep rule and run across the whole app. Run 1 found every other
         file with the same bug. Bob fixed them, and run 2 proves they're closed.
       </SectionHead>
 
-      <div className="card">
+      <div className="card table-card">
         <div className="table-toolbar">
           <div className="segmented" role="tablist" aria-label="Verifier run">
             <button role="tab" aria-selected={run === 1} className={run === 1 ? 'on' : ''} onClick={() => setRun(1)}>
@@ -192,7 +207,7 @@ export function ActionAudit({ data }: { data: Dataset }) {
 
   return (
     <section id="audit" className="section">
-      <SectionHead kicker="Did we actually do the follow-ups?" title="Action-item audit">
+      <SectionHead index="03" kicker="Audit" title="Action-item audit">
         Every action item in the postmortem is classified with file evidence. Runbook and on-call changes are marked
         process-only. We don't make up code evidence for them.
       </SectionHead>
@@ -258,14 +273,16 @@ const STEPS = [
   { n: '01', title: 'Postmortem', body: 'A normal incident write-up: root cause, trigger, seed file, action items.', bob: 'Document understanding' },
   { n: '02', title: 'Bob reads', body: 'The Postmortem Guard mode pulls out the root cause and bug/fix refs, and plans before writing anything.', bob: 'Custom mode · Plan mode' },
   { n: '03', title: 'Guard generated', body: 'For each incident: a regression test, a Semgrep rule and guard.json. One subagent per incident, in parallel.', bob: 'Parallel subagents · Skill' },
-  { n: '04', title: 'Verifier proves', body: 'Deterministic, no AI: worktrees at both commits, anti-cheat, rule sanity checks, variant hunt.', bob: 'The judge, not Bob' },
+  { n: '04', title: 'Verifier proves', body: 'Deterministic, no AI: worktrees at both commits, anti-cheat, rule sanity checks, variant hunt.', bob: 'The judge' },
   { n: '05', title: 'Variants fixed', body: 'Bob fixes every variant the rules found, then the verifier reruns until nothing is open.', bob: 'Agent mode · /review' },
 ];
 
 export function HowItWorks() {
   return (
     <section id="how" className="section">
-      <SectionHead kicker="Bob generates · the verifier judges" title="How it works" />
+      <SectionHead index="04" kicker="Pipeline" title="How it works">
+        Bob generates the guard. The verifier, which has no AI in it, decides whether it counts.
+      </SectionHead>
       <ol className="flow">
         {STEPS.map((s) => (
           <li key={s.n} className={`flow-step${s.n === '04' ? ' is-judge' : ''}`}>
@@ -311,7 +328,9 @@ function CopyBlock({ cmd }: { cmd: string }) {
 export function RunIt({ data }: { data: Dataset }) {
   return (
     <section id="run" className="section">
-      <SectionHead kicker="Reproduce every number on this page" title="Run it yourself" />
+      <SectionHead index="05" kicker="Reproduce" title="Run it yourself">
+        Every number on this page comes from the verifier. Clone the repo and get the same result.
+      </SectionHead>
       <div className="stack">
         {COMMANDS.map((c) => (
           <div key={c.label}>
