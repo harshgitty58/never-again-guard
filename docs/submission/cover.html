@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Never Again — cover poster</title>
+<!-- Source for cover.png (1280x720 @2x). Rebuild with headless Chrome screenshot at 1280x720, deviceScaleFactor 2. -->
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #08090a; --line: rgba(255,255,255,.09); --line-2: rgba(255,255,255,.16);
+    --text: #ededef; --text-2: #a8a8b0; --muted: #74747c;
+    --red: #ff4d5e; --amber: #ffb547; --green: #2bd99f; --blue: #4589ff;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { width: 1280px; height: 720px; overflow: hidden; background: var(--bg); color: var(--text);
+    font: 400 14px/1.4 'Geist', sans-serif; font-variant-ligatures: none; -webkit-font-smoothing: antialiased; }
+  .poster { position: relative; width: 1280px; height: 720px; padding: 28px 32px;
+    background: var(--bg) url(img/sky.png) no-repeat -900px -520px / 3200px 1800px;
+    display: grid; gap: 12px;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: 1fr 92px 170px 58px; }
+  .poster::after { content: ''; position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(ellipse at 28% 34%, rgba(43,217,159,.10), transparent 55%); }
+  .mono { font-family: 'Geist Mono', monospace; }
+  .muted { color: var(--muted); }
+  .tile { position: relative; z-index: 1; border: 1px solid var(--line); border-radius: 14px;
+    background: linear-gradient(160deg, rgba(20,22,26,.86), rgba(12,13,15,.80));
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.04); padding: 12px 14px; overflow: hidden; }
+  .label { font: 600 10px 'Geist Mono', monospace; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+  .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 7px; vertical-align: 1px; }
+  .g { color: var(--green); } .r { color: var(--red); } .a { color: var(--amber); } .b { color: var(--blue); }
+  .bg-g { background: var(--green); box-shadow: 0 0 0 3px rgba(43,217,159,.18); }
+  .bg-r { background: var(--red); box-shadow: 0 0 0 3px rgba(255,77,94,.18); }
+  .bg-a { background: var(--amber); box-shadow: 0 0 0 3px rgba(255,181,71,.18); }
+
+  /* Hero title block */
+  .hero { grid-column: 1 / 7; grid-row: 1 / 3; border: 0; background: none; box-shadow: none; padding: 6px 4px 0;
+    display: flex; flex-direction: column; justify-content: center; }
+  .brandrow { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+  .brandrow img { width: 54px; height: 54px; filter: drop-shadow(0 0 18px rgba(43,217,159,.45)); }
+  .pill { display: inline-flex; align-items: center; gap: 8px; padding: 5px 12px; border-radius: 999px;
+    border: 1px solid var(--line-2); background: rgba(20,22,26,.7); font: 500 12px 'Geist', sans-serif; color: var(--text); }
+  h1 { font-size: 104px; font-weight: 800; line-height: .86; letter-spacing: -0.055em;
+    background: linear-gradient(180deg, #ffffff 35%, #b9f5df 100%); -webkit-background-clip: text; background-clip: text; color: transparent;
+    filter: drop-shadow(0 6px 30px rgba(43,217,159,.25)); }
+  .tagline { margin-top: 14px; font-size: 21px; font-weight: 500; letter-spacing: -0.015em; color: #d9d9de; max-width: 560px; }
+  .tagline em { font-style: normal; color: var(--green); }
+
+  /* Constellation card */
+  .scene { grid-column: 7 / 13; grid-row: 1 / 2; padding: 0; }
+  .scene img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 100% 45%; mix-blend-mode: screen; }
+  .scene .over { position: absolute; left: 14px; top: 12px; display: flex; gap: 8px; }
+  .scene .big { position: absolute; left: 16px; bottom: 14px; }
+  .scene .big b { display: block; font: 800 34px/1 'Geist', sans-serif; letter-spacing: -0.04em; color: var(--green); }
+  .chip { display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 999px; font: 600 11px 'Geist Mono', monospace;
+    background: rgba(8,9,10,.72); border: 1px solid var(--line-2); letter-spacing: .02em; }
+
+  /* Stat tiles */
+  .stat { display: flex; flex-direction: column; justify-content: space-between; }
+  .stat b { font: 700 30px/1 'Geist', sans-serif; letter-spacing: -0.04em; }
+  .stat b small { font-size: 15px; color: var(--muted); font-weight: 500; letter-spacing: 0; }
+  .stat .cap { font-size: 11.5px; color: var(--text-2); }
+  .s1 { grid-column: 7 / 9; grid-row: 2 / 3; } .s2 { grid-column: 9 / 11; grid-row: 2 / 3; } .s3 { grid-column: 11 / 13; grid-row: 2 / 3; }
+
+  /* Proof terminal */
+  .proof { grid-column: 1 / 5; grid-row: 3 / 4; padding: 0; background: rgba(9,11,14,.92); }
+  .proof .bar { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; border-bottom: 1px solid var(--line); }
+  .proof pre { font: 12.5px/1.75 'Geist Mono', monospace; padding: 10px 12px; white-space: pre-wrap; color: var(--text); }
+
+  /* Incidents */
+  .incidents { grid-column: 5 / 9; grid-row: 3 / 4; display: flex; flex-direction: column; gap: 7px; }
+  .inc { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 10px; padding: 7px 10px;
+    border: 1px solid var(--line); border-radius: 10px; background: rgba(8,9,10,.55); }
+  .inc .id { font: 600 11px 'Geist Mono', monospace; color: var(--text-2); }
+  .inc .t { font-size: 13px; font-weight: 500; }
+  .inc .v { font: 600 10.5px 'Geist Mono', monospace; color: var(--green); }
+
+  /* Feature cloud */
+  .features { grid-column: 9 / 13; grid-row: 3 / 4; }
+  .tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 7px; }
+  .tag { padding: 4px 9px; border-radius: 8px; font: 500 11.5px 'Geist', sans-serif; border: 1px solid var(--line-2);
+    background: rgba(255,255,255,.035); color: #dcdce1; }
+  .tag.hl { border-color: rgba(43,217,159,.45); background: rgba(43,217,159,.1); color: #c9f7e6; }
+  .tag.bl { border-color: rgba(69,137,255,.45); background: rgba(69,137,255,.1); color: #cfe0ff; }
+
+  /* Pipeline strip */
+  .pipe { grid-column: 1 / 10; grid-row: 4 / 5; display: flex; align-items: center; gap: 8px; padding: 0 14px; }
+  .step { display: inline-flex; align-items: center; gap: 7px; font: 600 12.5px 'Geist', sans-serif; white-space: nowrap; }
+  .step i { font-style: normal; font: 600 10px 'Geist Mono', monospace; color: var(--muted); }
+  .arrow { color: var(--muted); font-size: 13px; }
+  .step.judge { color: var(--green); }
+
+  /* Team — white glass */
+  .team { grid-column: 10 / 13; grid-row: 4 / 5; display: flex; flex-direction: column; justify-content: center; gap: 1px;
+    border: 1px solid rgba(255,255,255,.75); background: linear-gradient(135deg, rgba(255,255,255,.97), rgba(242,252,248,.91));
+    box-shadow: 0 8px 28px rgba(43,217,159,.28), inset 0 1px 0 #fff; padding: 8px 14px; }
+  .team b { font: 700 14px 'Geist', sans-serif; color: #07090b; letter-spacing: -0.01em; }
+  .team span { font: 500 11.5px 'Geist', sans-serif; color: #2a2c31; }
+</style>
+</head>
+<body>
+<div class="poster">
+
+  <div class="tile hero">
+    <div class="brandrow">
+      <img src="../../dashboard/public/icon-512.png" alt="" />
+      <span class="pill"><span class="dot bg-g"></span>Postmortem → Regression Guard</span>
+      <span class="pill b">Built with IBM Bob 2.0</span>
+    </div>
+    <h1>Never Again</h1>
+    <p class="tagline">Every postmortem becomes a guard your code can't forget. <em>Bob generates. A verifier judges.</em></p>
+  </div>
+
+  <div class="tile scene">
+    <img src="img/scene-after.png" alt="" />
+    <div class="over"><span class="chip"><span class="dot bg-g"></span>run 2 · all guarded</span><span class="chip">verifier exit 0</span></div>
+    <div class="big"><b>3 / 3 GUARDED</b><span class="label">3D incident dashboard</span></div>
+  </div>
+
+  <div class="tile stat s1"><span class="label">Variants</span><b class="r">7<small> → </small><span class="g">0</span></b><span class="cap">hidden bugs found &amp; fixed</span></div>
+  <div class="tile stat s2"><span class="label">Action items</span><b>11<small>/11</small></b><span class="cap">with code evidence</span></div>
+  <div class="tile stat s3"><span class="label">Verify time</span><b>&lt;1<small> min</small></b><span class="cap">all incidents, fresh clone</span></div>
+
+  <div class="tile proof">
+    <div class="bar"><span class="label">Proof · both ways</span><span class="label g">no AI in the judge</span></div>
+    <pre><span class="muted">@ inc-102-bug</span>  <span class="r">✗ FAIL</span> on assertion
+  expected 10 ≤ 4 retries
+<span class="muted">@ inc-102-fix</span>  <span class="g">✓ PASS</span> all assertions hold
+<span class="muted">semgrep</span>  seed <span class="g">matched</span> @bug · <span class="g">clean</span> @fix</pre>
+  </div>
+
+  <div class="tile incidents">
+    <span class="label">Real-world incidents</span>
+    <div class="inc"><span class="id">INC-101</span><span class="t">Midnight orders, wrong delivery date</span><span class="v">GUARDED</span></div>
+    <div class="inc"><span class="id">INC-102</span><span class="t">Retry storm took down payments</span><span class="v">GUARDED</span></div>
+    <div class="inc"><span class="id">INC-103</span><span class="t">₹NaN checkout from a null price</span><span class="v">GUARDED</span></div>
+  </div>
+
+  <div class="tile features">
+    <span class="label">What you get</span>
+    <div class="tags">
+      <span class="tag hl">Regression tests</span>
+      <span class="tag hl">Variant hunt</span>
+      <span class="tag hl">Action-item audit</span>
+      <span class="tag">Semgrep rules</span>
+      <span class="tag">Anti-cheat</span>
+      <span class="tag">Git worktrees</span>
+      <span class="tag">Deterministic verdicts</span>
+      <span class="tag bl">IBM Bob skill</span>
+      <span class="tag">3D dashboard</span>
+      <span class="tag">Zero prod deps</span>
+      <span class="tag">Process-only honesty</span>
+    </div>
+  </div>
+
+  <div class="tile pipe">
+    <span class="step"><i>01</i>Postmortem</span><span class="arrow">→</span>
+    <span class="step b"><i>02</i>IBM Bob reads</span><span class="arrow">→</span>
+    <span class="step"><i>03</i>Test + rule + audit</span><span class="arrow">→</span>
+    <span class="step judge"><i>04</i>Verifier proves</span><span class="arrow">→</span>
+    <span class="step"><i>05</i>Variants fixed</span><span class="arrow">→</span>
+    <span class="step judge"><span class="dot bg-g"></span>GUARDED</span>
+  </div>
+
+  <div class="tile team"><b>Team Kira</b><span>Harsh Dhavane · TY Comp Engg, VIT Pune</span></div>
+
+</div>
+</body>
+</html>
